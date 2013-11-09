@@ -3,7 +3,6 @@ from Tkinter import *
 objects=[]
 canvas=None
 
-
 class Player:
 
 	#this runs when Player() is called
@@ -37,7 +36,11 @@ def init():
 def onclick(event):
 	if event.keysym == "r":
 		init()
-	else:
+	if event.keysym == "b":
+		print "DEBUG DATA:"
+		print "Player coords: ", canvas.coords(player.id)
+		print "Player move vector: ", player.moveDir
+	elif event.keysym in ["w","a","s","d"]:
 		newMovedir={"w":[0,-1],"a":[-1,0],"s":[0,1],"d":[1,0]}[event.keysym]
 		player.moveDir[0]+=newMovedir[0]
 		player.moveDir[1]+=newMovedir[1]

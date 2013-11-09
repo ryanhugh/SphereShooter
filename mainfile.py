@@ -34,15 +34,16 @@ def update():
 # w,a,s,d -> move
 # r -> restart
 # ESC,q -> quit
+# b -> debug
 root.bind("w", onclick)
 root.bind("a", onclick)
 root.bind("s", onclick)
 root.bind("d", onclick)
 root.bind("r", onclick)
+root.bind("b", onclick)
 root.bind("q", exit)
 
 root.bind("<Escape>", exit)
-
 
 Button(frame, text="Restart",command=init).pack()
 
