@@ -32,7 +32,7 @@ def gfxInit():
 	player=Player()
 
 
-def onclick(event):
+def onKey(event):
 	if event.keysym == "r":
 		gfxInit()
 	if event.keysym == "b":
@@ -43,6 +43,13 @@ def onclick(event):
 		newMovedir={"w":[0,-1],"a":[-1,0],"s":[0,1],"d":[1,0]}[event.keysym]
 		player.moveDir[0]+=newMovedir[0]
 		player.moveDir[1]+=newMovedir[1]
+	elif event.keysym in ["<Escape>", "q"]:
+		exit()
+	else: # This keypress shouldn't be handled
+		return
+
+def onClick(event):
+	print "Button-1 click"
 
 
 if __name__ == '__main__':

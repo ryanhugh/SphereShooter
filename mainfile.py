@@ -46,9 +46,7 @@ def update():
 # r -> restart
 # ESC,q -> quit
 # b -> debug
-
 root.bind("<Key>", onKey)
-
 root.bind("<Button-1>", onClick)
 
 Button(lowerFrame, text="Restart",command=gfxInit).grid(row=1,column=0)
