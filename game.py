@@ -16,20 +16,27 @@ objects=[]
 
 
 class ball:
-	def __init__():
+	def __init__(self):
 		objects.append(self)
-	def update():
+		self.id=canvas.create_oval(10,10,100,100,fill="blue")
 
-		print canvas.create_oval(10,10,100,100,fill="blue")
+	def update(self):
+		canvas.move(self.id,2,2)
+		
 
 
 def restart():
 	print 'restarting'
+	ball()
 
-	print canvas.create_oval(10,10,100,100,fill="blue")
+
 
 
 def update():
+
+	for obj in objects:
+		obj.update()
+
 	root.after(10,update)
 
 
