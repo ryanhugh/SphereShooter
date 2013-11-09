@@ -3,14 +3,16 @@ from Tkinter import *
 import socket
 import SocketServer
 import threading
+import ast
 
 root=None
 lowerFrame=None
 ipTextBox=None
+updateOpponate=None
 
 
 #local server stuff
-PORT =  9999
+PORT =  4242
 
 destIp=None
 
@@ -23,7 +25,7 @@ def send(*data):
 
 	if destIp==None:
 		return
-	print 'sending',dataToSend,' to',destIp
+	# print 'sending',dataToSend,' to',destIp
 	
 
 	sock.sendto(str(dataToSend), (destIp, PORT))
@@ -42,8 +44,18 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
 
     def handle(self):
         clientAddr=self.client_address[0]
-        data = self.request[0]
-        print data
+        data = ast.literal_eval(self.request[0])
+
+        # incoming is list:
+        # 1: list of player coords
+        # 2: list of bullets
+        	# each bullets coords
+
+        # print data[1]
+        updateOpponate(data[0])
+
+
+
         
         
                     

@@ -26,8 +26,16 @@ helper.objects=objects
 helper.canvas=canvas
 
 
+def updateOpponate(coords):
+	#move opponate to these coords
+
+	# helper.opponate.coords=
+	# print 'setting enemy to corrds:',coords
+
 network.lowerFrame=lowerFrame
 network.root=root
+network.updateOpponate=updateOpponate
+
 
 
 def update():
@@ -39,7 +47,7 @@ def update():
 
 	root.after(10,update)
 
-	
+
 	network.addToSend(canvas.coords(helper.player.id))
 	network.send()
 
