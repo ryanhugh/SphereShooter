@@ -13,8 +13,11 @@ class Player:
 	
 		objects.append(self)
 		self.id=canvas.create_rectangle(10,10,100,100,fill="blue")
+		print canvas.coords(self.id),'1'
 
 	def update(self):
+
+		print canvas.coords(self.id),'2'
 		canvas.move(self.id,self.moveDir[0],-self.moveDir[1])
 		
 
@@ -24,18 +27,15 @@ def restart():
 	global Ball
 	print 'restarting'
 	canvas.delete(ALL)
+	for i in range(len(objects)):
+		del objects[i]
 	
 	player=Player()
 
 
 
 
-def update():
 
-	for obj in objects:
-		obj.update()
-
-	root.after(10,update)
 
 
 def onclick(event):
