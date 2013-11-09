@@ -22,7 +22,7 @@ class Player:
 			
 		canvas.move(self.id,self.moveDir[0], self.moveDir[1])
 
-class Bullet:
+#class Bullet:
 	
 
 def gfxInit():
