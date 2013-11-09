@@ -1,3 +1,4 @@
+import re
 from Tkinter import *
 import socket
 import SocketServer
@@ -8,7 +9,7 @@ lowerFrame=None
 ipTextBox=None
 
 
-
+destIp=None
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
@@ -16,7 +17,8 @@ dataToSend=[]
 
 def send(*data):
 	global dataToSend
-	print 'sending',dataToSend,' to',ipTextBox.get()
+
+	# print 'sending',dataToSend,' to',ipTextBox.get()
 	
 	dataToSend=[]
 
