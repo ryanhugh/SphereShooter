@@ -28,17 +28,16 @@ class ball:
 
 
 class Player:
-
+	#global vars for class Player
 	moveDir=[0,0]
 
+	#this runs when Player() is called
 	def __init__(self):
 		objects.append(self)
 		self.id=canvas.create_rectangle(10,10,100,100,fill="blue")
 
 	def update(self):
 		canvas.move(self.id,self.moveDir[0],-self.moveDir[1])
-		pass
-		# canvas.move(self.id,2,2)
 		
 
 
@@ -61,7 +60,9 @@ def update():
 
 def onclick(event):
 	print event.keysym
-	player.moveDir={"w":[0,1],"a":[-1,0],"s":[0,-1],"d":[1,0]}[event.keysym]
+	newMovedir={"w":[0,1],"a":[-1,0],"s":[0,-1],"d":[1,0]}[event.keysym]
+	player.moveDir[0]+=newMovedir[0]
+	player.moveDir[1]+=newMovedir[1]
 
 
 #bind controls
