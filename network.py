@@ -4,7 +4,7 @@ import SocketServer
 import threading
 
 root=None
-frame=None
+lowerFrame=None
 ipTextBox=None
 
 
@@ -60,6 +60,10 @@ def waitForWifi():
         #wait before trying again
         time.sleep(1)
 
+
+
+
+
 def enterButtonClicked(event):
 	root.focus_set()
 	print root.coords(ipTextBox)
@@ -71,8 +75,17 @@ def boxClicked():
 
 def networkInit():
 	global ipTextBox
-	ipTextBox = Entry(frame)#,command=boxClicked)
-	ipTextBox.pack()
+
+	# padding between box and ip
+	Label(lowerFrame,text="                                            ").grid(row=1,column=1)
+	
+
+
+	Label(lowerFrame,text="ip Address:").grid(row=1,column=2)
+
+	ipTextBox = Entry(lowerFrame)
+	ipTextBox.grid(row=1,column=3,padx=50)
+
 
 
 	root.bind("<Return>", enterButtonClicked)

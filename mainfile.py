@@ -11,11 +11,13 @@ root=Tk()
 
 
 frame=Frame()
-frame.pack()
+frame.grid(row=0,column=0)
 
 canvas=Canvas(frame,width=500,height=500)
-canvas.pack()
+canvas.grid(row=0,column=0)
 
+lowerFrame=Frame(width=root.winfo_screenwidth())
+lowerFrame.grid(row=1,column=0)
 
 objects=[]
 player=None
@@ -25,7 +27,7 @@ helper.objects=objects
 helper.canvas=canvas
 
 
-network.frame=frame
+network.lowerFrame=lowerFrame
 network.root=root
 
 
@@ -54,7 +56,7 @@ root.bind("q", exit)
 
 root.bind("<Escape>", exit)
 
-Button(frame, text="Restart",command=gfxInit).pack()
+Button(lowerFrame, text="Restart",command=gfxInit).grid(row=1,column=0)
 
 #start update loop
 root.after(10,update)
