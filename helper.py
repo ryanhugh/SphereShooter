@@ -16,11 +16,14 @@ class Player:
 
 	def update(self):
 		if (canvas.coords(self.id)[2] >= 500) or (canvas.coords(self.id)[0] <= 0):
-			self.moveDir[0]*=-1
+			self.moveDir[0]-=1.9*self.moveDir[0] # No longer a perfectly elastic collision
 		if (canvas.coords(self.id)[3] >= 500) or (canvas.coords(self.id)[1] <= 0):
-			self.moveDir[1]*=-1
+			self.moveDir[1]-=1.9*self.moveDir[1] # No longer a perfectly elastic collision
 			
 		canvas.move(self.id,self.moveDir[0], self.moveDir[1])
+
+class Bullet:
+	
 
 def gfxInit():
 	global player
@@ -49,8 +52,8 @@ def onKey(event):
 		return
 
 def onClick(event):
-	print "Button-1 click"
-
+	mouse=[event.x, event.y] # Coordinates of mouse at click
+	print mouse
 
 if __name__ == '__main__':
 	import mainfile
