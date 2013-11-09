@@ -54,16 +54,14 @@ root.bind("q", exit)
 
 root.bind("<Escape>", exit)
 
-Button(frame, text="Restart",command=init).pack()
+Button(frame, text="Restart",command=gfxInit).pack()
 
 #start update loop
 root.after(10,update)
 
-#make game stuff
-init()
-
+# ===== Init functions ===== #
+gfxInit()
 networkInit()
-
 
 root.mainloop()
 

@@ -22,7 +22,7 @@ class Player:
 			
 		canvas.move(self.id,self.moveDir[0], self.moveDir[1])
 
-def init():
+def gfxInit():
 	global player
 	print 'restarting'
 	canvas.delete(ALL)
@@ -34,7 +34,7 @@ def init():
 
 def onclick(event):
 	if event.keysym == "r":
-		init()
+		gfxInit()
 	if event.keysym == "b":
 		print "DEBUG DATA:"
 		print "Player coords: ", canvas.coords(player.id)
