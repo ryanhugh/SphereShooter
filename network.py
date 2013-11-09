@@ -8,7 +8,7 @@ import ast
 root=None
 lowerFrame=None
 ipTextBox=None
-updateOpponate=None
+updateOpponent=None
 
 
 #local server stuff
@@ -52,7 +52,7 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
         	# each bullets coords
 
         # print data[1]
-        updateOpponate(data[0])
+        updateOpponent(data[0])
 
 
 
