@@ -12,7 +12,7 @@ class Player:
 		self.moveDir=[0,0]
 	
 		objects.append(self)
-		self.id=canvas.create_rectangle(10,10,100,100,fill="blue")
+		self.id=canvas.create_rectangle(200,200,300,300,fill="blue")
 
 	def update(self):
 		if (canvas.coords(self.id)[2] >= 500) or (canvas.coords(self.id)[0] <= 0):
