@@ -9,6 +9,9 @@ lowerFrame=None
 ipTextBox=None
 
 
+#local server stuff
+PORT =  9999
+
 destIp=None
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -18,8 +21,13 @@ dataToSend=[]
 def send(*data):
 	global dataToSend
 
-	# print 'sending',dataToSend,' to',ipTextBox.get()
+	if destIp==None:
+		return
+	print 'sending',dataToSend,' to',destIp
 	
+
+	sock.sendto(str(dataToSend), (destIp, PORT))
+
 	dataToSend=[]
 
 
@@ -74,8 +82,20 @@ def waitForWifi():
 
 
 def enterButtonClicked(event):
+	global destIp
+	#unfocus text box
 	root.focus_set()
-	print root.coords(ipTextBox)
+
+	#validate ip
+	if not re.match(r'(\d+\.){3}\d+',ipTextBox.get()):
+		print "invalid ip address"
+		destIp=None
+		return
+
+	destIp=ipTextBox.get()
+	print 'valid ip'
+
+	# print root.coords(ipTextBox)
 
 def boxClicked():
 	print 'hi'
@@ -100,8 +120,6 @@ def networkInit():
 	root.bind("<Return>", enterButtonClicked)
 
 
-	#local server stuff
-	PORT =  9999
 
 	#make a UDP server
 	server = ThreadedUDPServer((waitForWifi(), PORT), ThreadedUDPRequestHandler)
