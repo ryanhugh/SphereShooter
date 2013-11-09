@@ -47,19 +47,9 @@ def update():
 # ESC,q -> quit
 # b -> debug
 
-#root.bind("w", onKey)
-#root.bind("a", onKey)
-#root.bind("s", onKey)
-#root.bind("d", onKey)
-#root.bind("r", onKey)
-#root.bind("b", onKey)
-#root.bind("q", exit)
-
 root.bind("<Key>", onKey)
 
 root.bind("<Button-1>", onClick)
-
-#root.bind("<Escape>", exit)
 
 Button(lowerFrame, text="Restart",command=gfxInit).grid(row=1,column=0)
 
