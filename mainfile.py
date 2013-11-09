@@ -26,23 +26,21 @@ helper.objects=objects
 helper.canvas=canvas
 
 
-def updateOpponate(coords):
+def updateOpponent(coords):
 	#move opponate to these coords
 
 	# helper.opponate.coords=
 	# print 'setting enemy to corrds:',coords
-
+	pass
+	
 network.lowerFrame=lowerFrame
 network.root=root
-network.updateOpponate=updateOpponate
+network.updateOpponent=updateOpponent
 
 
 
 def update():
-
-
 	for obj in objects:
-
 		obj.update()
 
 	root.after(10,update)
