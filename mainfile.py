@@ -20,7 +20,6 @@ lowerFrame=Frame(width=root.winfo_screenwidth())
 lowerFrame.grid(row=1,column=0)
 
 objects=[]
-player=None
 
 
 helper.objects=objects
@@ -39,6 +38,10 @@ def update():
 		obj.update()
 
 	root.after(10,update)
+
+	
+	network.addToSend(canvas.coords(helper.player.id))
+	network.send()
 
 
 # ===== Keybinding ===== #

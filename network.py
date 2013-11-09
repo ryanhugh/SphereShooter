@@ -12,11 +12,17 @@ ipTextBox=None
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
+dataToSend=[]
+
+def send(*data):
+	global dataToSend
+	print 'sending',dataToSend,' to',ipTextBox.get()
+	
+	dataToSend=[]
 
 
-def send():
-	print 'sending',ipTextBox.get()
-	pass
+def addToSend(*data):
+	dataToSend.append(str(data))
 
 
 
@@ -27,6 +33,7 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
     def handle(self):
         clientAddr=self.client_address[0]
         data = self.request[0]
+        print data
         
         
                     
@@ -90,8 +97,6 @@ def networkInit():
 
 	root.bind("<Return>", enterButtonClicked)
 
-
-	# print ipTextBox
 
 	#local server stuff
 	PORT =  9999
