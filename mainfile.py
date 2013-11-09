@@ -1,6 +1,8 @@
 import network
+from network import *
 import helper
 from helper import *
+
 from Tkinter import *
 from random import *
 
@@ -23,8 +25,15 @@ helper.objects=objects
 helper.canvas=canvas
 
 
+network.frame=frame
+network.root=root
+
+
 def update():
+
+
 	for obj in objects:
+
 		obj.update()
 
 	root.after(10,update)
@@ -52,6 +61,9 @@ root.after(10,update)
 
 #make game stuff
 init()
+
+networkInit()
+
 
 root.mainloop()
 
