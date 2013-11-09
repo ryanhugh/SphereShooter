@@ -30,25 +30,27 @@ def update():
 	root.after(10,update)
 
 
-#bind controls
+# ===== Keybinding ===== #
+# w,a,s,d -> move
+# r -> restart
+# ESC,q -> quit
 root.bind("w", onclick)
 root.bind("a", onclick)
 root.bind("s", onclick)
 root.bind("d", onclick)
+root.bind("r", onclick)
+root.bind("q", exit)
+
+root.bind("<Escape>", exit)
 
 
-
-Button(frame, text="Restart",command=restart).pack()
+Button(frame, text="Restart",command=init).pack()
 
 #start update loop
 root.after(10,update)
 
 #make game stuff
-restart()
-
-#exit when u click esc
-root.bind("<Escape>", exit)
-
+init()
 
 root.mainloop()
 
