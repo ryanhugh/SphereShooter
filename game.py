@@ -28,11 +28,12 @@ class ball:
 
 
 class Player:
-	#global vars for class Player
-	moveDir=[0,0]
 
 	#this runs when Player() is called
 	def __init__(self):
+		#global vars for class Player
+		self.moveDir=[0,0]
+	
 		objects.append(self)
 		self.id=canvas.create_rectangle(10,10,100,100,fill="blue")
 
@@ -43,9 +44,12 @@ class Player:
 
 def restart():
 	global player
+	global Ball
 	print 'restarting'
-	ball()
-	player=	Player()
+	canvas.delete(ALL)
+	
+	Ball=ball()
+	player=Player()
 
 
 
