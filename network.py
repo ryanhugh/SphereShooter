@@ -5,6 +5,7 @@ import SocketServer
 import threading
 import ast
 import time
+import pyclip
 
 # ===== Constants ===== #
 PORT =  4242
@@ -205,20 +206,34 @@ def networkInit():
 
 	currentIp=getIpAddress()
 
-
+	#ip Entry 
 	ipTextBoxVar=StringVar()
 	ipTextBoxVar.set(currentIp)
 
 	ipTextBox = Entry(lowerFrame,textvariable=ipTextBoxVar)
 	ipTextBox.grid(row=1,column=3,padx=5)
 
-
+	#opponent status
 	OppStatusBoxVar=StringVar()
 	OppStatusBoxVar.set("Not connected")
 
 	OppStatusBox = Label(lowerFrame,textvariable=OppStatusBoxVar)
 	OppStatusBox.grid(row=1,column=4)
 	OppStatusBox.config(fg='red')
+
+
+
+	# padding
+	Label(lowerFrame,text="            ",pady=5).grid(row=1,column=5)
+
+
+	# padding
+	Label(lowerFrame,text="Current IP:  "+currentIp).grid(row=1,column=6,padx=5)
+
+
+	Button(lowerFrame, text="Copy",command=lambda: pyclip.copy(currentIp)).grid(row=1,column=7)
+
+
 
 	#for testing
 	enterButtonClicked(42)
