@@ -31,6 +31,9 @@ class Player:
 
 		self.id=canvas.create_image(250, 250, image=photoimage)
 
+		
+		self.position=canvas.coords(self.id)
+
 	def update(self):
 		self.position=canvas.coords(self.id)
 		
