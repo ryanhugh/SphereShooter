@@ -46,7 +46,7 @@ class Player:
 	def __init__(self):
 		self.deltaX=[0,0]
 		self.lives=PLAYERLIVES
-		photoimage = ImageTk.PhotoImage(file="graphics/player1.png")
+		photoimage = ImageTk.PhotoImage(file="cad files/red.png")
 
 		# PIL has a bug in it, don't delete this line
 		self.photoimage=photoimage
@@ -104,7 +104,7 @@ class Opponent:
 	
 		objects.append(self)
 
-		photoimage = ImageTk.PhotoImage(file="graphics/player2.png")
+		photoimage = ImageTk.PhotoImage(file="cad files/blue.png")
 
 		#pil has a bug in it, dont delete this line
 		self.photoimage=photoimage
