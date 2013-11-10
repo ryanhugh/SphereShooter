@@ -66,7 +66,7 @@ def updateBullets():
 		canvas.coords(helper.opponentBullets[count].id,(bulletCoords[1],bulletCoords[2],10+bulletCoords[1],10+bulletCoords[2]))
 
 
-def restartfn(didWin):
+def restartfn(didWin,doSendMsg):
 	if didWin:
 		print 'you killed the opponent!'
 	else:
@@ -74,7 +74,8 @@ def restartfn(didWin):
 
 	gfxInit()
 	scoreboardInit()
-	sendRestartMsg()
+	if doSendMsg:
+		sendRestartMsg()
 
 
 #copy globals to other modules
@@ -105,7 +106,7 @@ def update():
 	
 	#if threading udp server got restart packet, restart
 	if network.doRestart:
-		restartfn(True)
+		restartfn(True,False)
 		network.doRestart=False
 		return
 
@@ -173,7 +174,7 @@ def update():
 	
 	if helper.player.lives<0:
 		print "Out of lives!"
-		restartfn(False)
+		restartfn(False,True)
 
 	if scoreboard.otherScoreLabelVar.get()!=network.newOtherScore:
 		scoreboard.otherScoreLabelVar.set(network.newOtherScore)
