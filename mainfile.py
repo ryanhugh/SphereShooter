@@ -78,6 +78,7 @@ def restartfn():
 	opponentBullets
 	gfxInit()
 	scoreboardInit()
+	sendRestartMsg()
 
 
 #send importiant stuff to network
@@ -116,6 +117,9 @@ def update():
 	for count,item in enumerate(bulletCoords):
 		bulletCoords[count][1]=int(bulletCoords[count][1])
 		bulletCoords[count][2]=int(bulletCoords[count][2])
+
+	# if len(bulletCoords)!=3:
+		
 
 	#send coords of everything
 	#dont change the order of this
