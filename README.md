@@ -6,9 +6,9 @@ Hackathon project
 Requirements:
 =====
 - Python 2.7.5+
-- python-tkinter (Tkinter)
-- python-imaging (PIL)
-- python-imaging-tk (ImageTk)
+- Tkinter (Should be installed by default)
+- [python-imaging (PIL)](https://developers.google.com/appengine/docs/python/images/installingPIL)
+- *Linux*: python-imaging-tk (ImageTk)
 
 
 TODO
