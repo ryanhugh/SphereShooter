@@ -60,9 +60,7 @@ def updateBullets():
 		helper.opponentBullets[count].uuid=bulletCoords[0]
 
 		# remove the hex# from the array
-		del bulletCoords[0]
-
-
+		bulletCoords.pop(0)
 		canvas.coords(helper.opponentBullets[count].id,(bulletCoords[0],bulletCoords[1],10+bulletCoords[0],10+bulletCoords[1]))
 
 
@@ -88,8 +86,6 @@ def update():
 	for obj in objects:
 		obj.update()
 
-
-
 	bulletCoords=[]
 
 	#make array of coords from bullets
@@ -102,8 +98,6 @@ def update():
 	for count,item in enumerate(bulletCoords):
 		bulletCoords[count][1]=int(bulletCoords[count][1])
 		bulletCoords[count][2]=int(bulletCoords[count][2])
-
-
 
 	#send coords of everything
 	#dont change the order of this
@@ -121,18 +115,18 @@ def update():
 				helper.objects.remove(localbullet)
 				helper.bullets.remove(localbullet)
 
-
-
-
-
 	helper.bulletsToStopSending=[]
 
 	#if there is no opponent, don't update Opponent and Opponent bullets
 	if network.destIp:
 		updateBullets()
 		updateOpponent()
+	
+	if helper.player.lives<0:
+		print "Out of lives!"
+		gfxInit()
 
-	#schedual this funciton again
+	#schedule this function again
 	root.after(10,update)
 
 
