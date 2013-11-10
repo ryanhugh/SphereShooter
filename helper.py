@@ -1,5 +1,6 @@
 from Tkinter import *
 from math import *
+from PIL import ImageTk
 
 # ===== Initialised empty, Updated by mainfile ===== #
 objects=[]
@@ -14,19 +15,31 @@ class Player:
 	
 		objects.append(self)
 		photoimage = ImageTk.PhotoImage(file="graphics/player1.png")
-		self.id=canvas.create_image(150, 150, image=photoimage)
+
+		#pil has a bug in it, dont delete this line
+		self.photoimage=photoimage
+
+		self.width=photoimage.width()
+		self.height=photoimage.height()
+
+		self.id=canvas.create_image(101, 101, image=photoimage)
 		# canvas.create_rectangle(200,200,300,300,fill="blue")
 
+		# print(canvas.coords(self.id))
+
 	def update(self):
+
 		self.position=canvas.coords(self.id)
+		self.position=[self.position[0]-self.width/2,self.position[1]-self.height/2,self.width/2+self.position[0],self.height/2+self.position[1]]
+
+		# return
 
 		if (self.position[2] >= 500) or (self.position[0] <= 0):
 			self.deltaX[0]*=-1
 		if (self.position[3] >= 500) or (self.position[1] <= 0):
 			self.deltaX[1]*=-1
 
-
-
+		# print self.position
 		canvas.move(self.id,self.deltaX[0], self.deltaX[1])
 		
 # ===== Opponent: the opponent of Player ===== #
@@ -35,7 +48,7 @@ class Opponent:
 		self.deltaX=[0,0]
 	
 		objects.append(self)
-		self.id=canvas.create_rectangle(200,200,300,300,fill="blue")
+		self.id=canvas.create_rectangle(200,200,300,300)#,fill="blue")
 	
 	def update(self):
 		pass

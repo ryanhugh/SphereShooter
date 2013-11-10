@@ -62,7 +62,7 @@ def update():
 
 
 	#send coords of everything
-	network.addToSend([int(i) for i in canvas.coords(helper.player.id)])
+	network.addToSend([int(i) for i in helper.player.position])
 
 	bulletCoords=[]
 
