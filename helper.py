@@ -13,7 +13,9 @@ class Player:
 		self.deltaX=[0,0]
 	
 		objects.append(self)
-		self.id=canvas.create_rectangle(200,200,300,300,fill="blue")
+		photoimage = ImageTk.PhotoImage(file="graphics/player1.png")
+		self.id=canvas.create_image(150, 150, image=photoimage)
+		# canvas.create_rectangle(200,200,300,300,fill="blue")
 
 	def update(self):
 		self.position=canvas.coords(self.id)
