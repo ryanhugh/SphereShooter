@@ -15,7 +15,7 @@ import time
 
 root=Tk()
 
-root.title("Sphere Shooter v.0.1")
+root.title("Sphere Shooter v.0.5")
 
 
 #layout management
@@ -35,12 +35,7 @@ canvas.grid(row=1,column=0)
 lowerFrame=Frame(width=root.winfo_screenwidth())
 lowerFrame.grid(row=2,column=0)
 
-
-
-
 objects=[]
-
-
 
 #these functions run with the update()
 #copy the coordinates from network.newPlayerCoords to the Opponent data
