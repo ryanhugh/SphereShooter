@@ -112,7 +112,7 @@ def update():
 	deltaSpeed=[0,0]
 	for key in helper.pressedKeys:
 		if helper.pressedKeys[key]:
-			newSpeed={"w":[0,-.1],"a":[-.1,0],"s":[0,.1],"d":[.1,0]}[key]
+			newSpeed={"w":[0,-helper.PLAYERCONTROLSENSITIVITY],"a":[-helper.PLAYERCONTROLSENSITIVITY,0],"s":[0,helper.PLAYERCONTROLSENSITIVITY],"d":[helper.PLAYERCONTROLSENSITIVITY,0]}[key]
 			deltaSpeed[0]+=newSpeed	[0]
 			deltaSpeed[1]+=newSpeed	[1]
 
