@@ -99,6 +99,7 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
 			print 'connected!'
 			isConnected=True
 			OppStatusBoxVar.set("Connected")
+			OppStatusBox.config(fg='green')
 
 
 		# get data
@@ -181,6 +182,7 @@ def enterButtonClicked(event):
 		destIp=None
 		isConnected=False
 		OppStatusBoxVar.set("Not Connected")
+		OppStatusBox.config(fg='red')
 		return
 
 	destIp=ipTextBox.get()
@@ -216,6 +218,7 @@ def networkInit():
 
 	OppStatusBox = Label(lowerFrame,textvariable=OppStatusBoxVar)
 	OppStatusBox.grid(row=1,column=4)
+	OppStatusBox.config(fg='red')
 
 	#for testing
 	enterButtonClicked(42)
