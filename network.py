@@ -42,6 +42,14 @@ def send(*data):
 	dataToSend=[]
 
 
+
+def sendRestartMsg():
+	sock.sendto("restart!", (destIp, PORT))
+	sock.sendto("restart!", (destIp, PORT))
+	sock.sendto("restart!", (destIp, PORT))
+	
+
+
 def addToSend(data):
 	dataToSend.append(data)
 
@@ -61,6 +69,9 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
         	ipTextBoxVar.set(clientAddr)
 
         data = ast.literal_eval(self.request[0])
+
+        if data=="restart!":
+        	restartfn()
         
         # incoming is list:
         # 1: list of player coords

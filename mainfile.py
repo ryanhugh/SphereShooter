@@ -73,7 +73,10 @@ def updateBullets():
 		# 	print network.newBulletCoords
 		# 	exit()
 
-
+def restartfn():
+	print 'you killed the opponent!'
+	gfxInit()
+	scoreboardInit()
 
 
 #send importiant stuff to network
@@ -81,12 +84,15 @@ network.lowerFrame=lowerFrame
 network.root=root
 network.updateOpponent=updateOpponent
 network.updateBullets=updateBullets
+network.restartfn=restartfn
 
 
 helper.objects=objects
 helper.canvas=canvas
 helper.root=root
 helper.setLives=scoreboard.setLives
+
+
 
 scoreboard.upperFrame=upperFrame
 scoreboard.root=root
