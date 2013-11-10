@@ -9,6 +9,14 @@ root=None
 lowerFrame=None
 ipTextBox=None
 updateOpponent=None
+updateBullets=None
+
+
+#tkinter is not thread safe, and the recieving data is in a thread 
+# so save this and update it in canvas on update
+newPlayerCoords=[]
+newBulletCorrds=[]
+
 
 
 #local server stuff
@@ -23,10 +31,9 @@ dataToSend=[]
 def send(*data):
 	global dataToSend
 
+	#if the regex fails, don't send anything
 	if destIp==None:
 		return
-	# print 'sending',dataToSend,' to',destIp
-	
 
 	sock.sendto(str(dataToSend), (destIp, PORT))
 
@@ -37,23 +44,28 @@ def addToSend(data):
 	dataToSend.append([int(i) for i in data])
 
 
-
-	
-
 class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
 
     def handle(self):
+    	global newPlayerCoords
+    	global newBulletCorrds
+
+    	# get data
         clientAddr=self.client_address[0]
         data = ast.literal_eval(self.request[0])
-        # print "data",data
+        
+       
 
         # incoming is list:
         # 1: list of player coords
         # 2: list of bullets
         	# each bullets coords
 
-        # print data[1]
-        updateOpponent(data[0])
+
+        newPlayerCoords=data[0]
+        
+        newBulletCorrds=data[1]
+
 
 
 
@@ -96,6 +108,7 @@ def waitForWifi():
 
 def enterButtonClicked(event):
 	global destIp
+
 	#unfocus text box
 	root.focus_set()
 
@@ -108,12 +121,6 @@ def enterButtonClicked(event):
 	destIp=ipTextBox.get()
 	print 'valid ip'
 
-	# print root.coords(ipTextBox)
-
-def boxClicked():
-	print 'hi'
-
-
 
 def networkInit():
 	global ipTextBox
@@ -122,14 +129,14 @@ def networkInit():
 	Label(lowerFrame,text="                                            ").grid(row=1,column=1)
 	
 
-
+	#label and text box
 	Label(lowerFrame,text="ip Address:").grid(row=1,column=2)
 
 	ipTextBox = Entry(lowerFrame)
 	ipTextBox.grid(row=1,column=3,padx=50)
 
 
-
+	#unfocus text box when enter is clicked
 	root.bind("<Return>", enterButtonClicked)
 
 
@@ -142,9 +149,6 @@ def networkInit():
 
 	server_thread.daemon = True
 	server_thread.start()
-
-
-
 
 
 
