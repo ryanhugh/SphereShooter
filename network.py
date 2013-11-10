@@ -177,7 +177,7 @@ def enterButtonClicked(event):
 	root.focus_set()
 
 	#validate ip
-	if not re.match(r'(\d+\.){3}\d+',ipTextBox.get()):
+	if not re.match(r'(\d+\.){3}\d+$',ipTextBox.get()):
 		print "invalid ip address"
 		destIp=None
 		isConnected=False

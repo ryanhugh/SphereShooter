@@ -121,7 +121,6 @@ def update():
 		return
 
 
-	# print 'checking ',time.time()-network.TimeSinceLastPacket
 	if network.isConnected and  (time.time()-network.TimeSinceLastPacket)*1000>network.CONNECTIONTIMEOUT:
 		print 'not connected any more'
 		network.isConnected=False
