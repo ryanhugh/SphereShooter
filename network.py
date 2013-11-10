@@ -135,6 +135,12 @@ def networkInit():
 	ipTextBox = Entry(lowerFrame)
 	ipTextBox.grid(row=1,column=3,padx=50)
 
+	currentIp=waitForWifi()
+
+	#for testing
+	ipTextBox.insert(0,currentIp)
+	enterButtonClicked(9)
+
 
 	#unfocus text box when enter is clicked
 	root.bind("<Return>", enterButtonClicked)
@@ -142,7 +148,7 @@ def networkInit():
 
 
 	#make a UDP server
-	server = ThreadedUDPServer((waitForWifi(), PORT), ThreadedUDPRequestHandler)
+	server = ThreadedUDPServer((currentIp, PORT), ThreadedUDPRequestHandler)
 
 	#and put it in a thread
 	server_thread = threading.Thread(target=server.serve_forever)

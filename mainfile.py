@@ -37,8 +37,8 @@ def updateBullets():
 		del helper.bullets[-1]
 
 	while len(helper.bullets)<len(network.newBulletCorrds):
-		
-		helper.bullets.append(2)
+		break
+		# helper.otherbullets.append(2)
 		#make a bullet! - FIXME
 
 	for count,bulletCoords in enumerate(network.newBulletCorrds):
@@ -66,19 +66,11 @@ def update():
 
 	bulletCoords=[]
 
+	#make array of coords from bullets
 	for count,bullet in enumerate(helper.bullets):
-		try:
-			if 'id' not in bullet.__dict__:
-				print bullet, bullet.__dict__
-				exit()
-		except:
-			print helper.bullets
-			print helper.bullets
-			print helper.bullets
-			print helper.bullets
 		bulletCoords.append(canvas.coords(bullet.id))
 
-
+	#make all coords ints
 	for count,item in enumerate(bulletCoords):
 		bulletCoords[count]=[int(i) for i in item]
 
