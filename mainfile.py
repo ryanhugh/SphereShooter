@@ -75,10 +75,8 @@ def updateBullets():
 
 def restartfn():
 	print 'you killed the opponent!'
-	opponentBullets
 	gfxInit()
 	scoreboardInit()
-	sendRestartMsg()
 
 
 #send importiant stuff to network
@@ -146,6 +144,7 @@ def update():
 	
 	if helper.player.lives<0:
 		print "Out of lives!"
+		sendRestartMsg()
 		gfxInit()
 		scoreboardInit()
 
