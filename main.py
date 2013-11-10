@@ -14,7 +14,7 @@ import time
 
 # ===== Create the window ===== #
 root=Tk()
-root.title("SphereShooter v.0.5")
+root.title("SphereShooter v.0.6")
 
 #top frame for scores
 upperFrame=Frame(width=root.winfo_screenwidth())
