@@ -67,13 +67,8 @@ def updateBullets():
 		canvas.coords(helper.opponentBullets[count].id,(bulletCoords[1],bulletCoords[2],10+bulletCoords[1],10+bulletCoords[2]))
 
 
-def restartfn(didWin,doSendMsg):
-	if didWin:
-		print 'you killed the opponent!'
-		if not tkMessageBox.askyesno("You won!", "Play again?"):
-			exit()
-	else:
-		print 'restarting!'
+def restartfn(doSendMsg):
+	print 'restarting!'
 
 	gfxInit()
 	scoreboardInit()
@@ -102,7 +97,8 @@ def update():
 		print "Out of lives!"
 		sendRestartMsg()
 		if tkMessageBox.askyesno("You lost!", "Play again?"):			
-			restartfn(False,False)
+			restartfn(False)
+			network.doRestart=False
 		else:
 			exit()
 
@@ -111,7 +107,11 @@ def update():
 
 	#if threading udp server got restart packet, restart
 	if network.doRestart:
-		restartfn(True,False)
+		sendRestartMsg()
+		restartfn(False)
+		print 'you killed the opponent!'
+		if not tkMessageBox.askyesno("You won!", "Play again?"):
+			exit()
 		network.doRestart=False
 		return	
 		

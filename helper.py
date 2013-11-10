@@ -177,7 +177,7 @@ def onKey(event):
 	#key press
 	if event.type=="2":
 		if event.keysym == "r":
-			restartfn(False,True)
+			restartfn(True)
 		if event.keysym == "b":
 			print "DEBUG DATA:"
 			print "Player coords: ", canvas.coords(player.id)
