@@ -22,7 +22,7 @@ class Player:
 		objects.append(self)
 		photoimage = ImageTk.PhotoImage(file="graphics/player1.png")
 
-		#pil has a bug in it, dont delete this line
+		# PIL has a bug in it, dont delete this line
 		self.photoimage=photoimage
 
 		self.id=canvas.create_image(250, 250, image=photoimage)
@@ -45,7 +45,7 @@ class Player:
 				self.lives-=1
 				canvas.delete(bullet)
 				bulletsToStopSending.append(bullet.uuid)
-				print 'telling opponate to kill',bullet.uuid
+				print 'telling opponent to kill',bullet.uuid
 				# opponentBullets.remove(bullet)
 				# send bullet back to opponent
 		

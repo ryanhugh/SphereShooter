@@ -43,13 +43,11 @@ def updateOpponent():
 	canvas.coords(helper.opponent.id, *network.newPlayerCoords)
 
 def updateBullets():
-
-
 	# print 'here',len(network.newBulletCoords)
 	# delete extra bullets
 	while len(helper.opponentBullets)>len(network.newBulletCoords):
 
-		canvas.delete(helper.opponentBullets[-1])
+		canvas.delete(helper.opponentBullets[-1].id)
 		del helper.opponentBullets[-1]
 
 	# make new bullets if we dont have enough
