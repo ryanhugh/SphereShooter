@@ -181,7 +181,7 @@ def enterButtonClicked(event):
 		print "invalid ip address"
 		destIp=None
 		isConnected=False
-		OppStatusBoxVar.set("Not Connected")
+		OppStatusBoxVar.set("Invalid IP Address")
 		OppStatusBox.config(fg='red')
 		return
 
