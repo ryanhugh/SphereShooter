@@ -24,14 +24,14 @@ objects=[]
 
 helper.objects=objects
 helper.canvas=canvas
-
+helper.root=root
 
 def updateOpponent(coords):
 	#move opponate to these coords
 
 	# helper.opponate.coords=
 	# print 'setting enemy to corrds:',coords
-	canvas.coords(opponent.id, coords)
+	canvas.coords(helper.opponent.id, coords)
 	
 network.lowerFrame=lowerFrame
 network.root=root
