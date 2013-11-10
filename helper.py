@@ -17,11 +17,14 @@ class Player:
 
 	def update(self):
 		self.position=canvas.coords(self.id)
-		if (self.position[2] >= 500) or (self.position[0] <= 0):
-			self.deltaX[0]-=1.9*self.deltaX[0] # No longer a perfectly elastic collision
-		if (self.position[3] >= 500) or (self.position[1] <= 0):
-			self.deltaX[1]-=1.9*self.deltaX[1] # No longer a perfectly elastic collision
-		
+
+			if (self.position[2] >= 500) or (self.position[0] <= 0):
+				self.deltaX[0]-=1.9*self.deltaX[0] # No longer a perfectly elastic collision
+			if (self.position[3] >= 500) or (self.position[1] <= 0):
+				self.deltaX[1]-=1.9*self.deltaX[1] # No longer a perfectly elastic collision
+
+
+
 		canvas.move(self.id,self.deltaX[0], self.deltaX[1])
 		
 # ===== Opponent: the opponent of Player ===== #
@@ -71,8 +74,9 @@ def gfxInit():
 	global opponent
 	print 'restarting'
 	canvas.delete(ALL)
-	for i in range(len(objects)):
-		del objects[i]
+
+	while len(objects):
+		del objects[0]
 	
 	player=Player()
 	opponent=Opponent()
