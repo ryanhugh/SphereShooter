@@ -33,19 +33,24 @@ def updateOpponent():
 
 def updateBullets():
 
-	while len(helper.bullets)>len(network.newBulletCorrds):
-		del helper.bullets[-1]
+	while len(helper.opponentBullets)>len(network.newBulletCoords):
+		canvas.delete(helper.opponentBullets[-1])
+		del helper.opponentBullets[-1]
 
-	while len(helper.bullets)<len(network.newBulletCorrds):
-		break
+	while len(helper.opponentBullets)<len(network.newBulletCoords):
+		helper.opponentBullets.append(canvas.create_oval(0,0,10,10, fill="blue"))
+		# break
 		# helper.otherbullets.append(2)
 		#make a bullet! - FIXME
 
-	for count,bulletCoords in enumerate(network.newBulletCorrds):
-		if None in bulletCoords:
-			print 'djfalsdjfslkd'
-			print network.newBulletCorrds
-			exit()
+	for count,bulletCoords in enumerate(network.newBulletCoords):
+		# print bulletCoords
+		canvas.coords(helper.opponentBullets[count],(bulletCoords[0],bulletCoords[1],10+bulletCoords[0],10+bulletCoords[1]))
+		# pass
+		# if None in bulletCoords:
+		# 	print 'djfalsdjfslkd'
+		# 	print network.newBulletCoords
+		# 	exit()
 	
 
 #send importiant stuff to network
@@ -62,9 +67,11 @@ def update():
 
 
 	#send coords of everything
-	network.addToSend([int(i) for i in helper.player.position])
+	network.addToSend([int(i) for i in canvas.coords(helper.player.id)])
 
 	bulletCoords=[]
+
+	# print len(helper.bullets)
 
 	#make array of coords from bullets
 	for count,bullet in enumerate(helper.bullets):
@@ -72,8 +79,9 @@ def update():
 
 	#make all coords ints
 	for count,item in enumerate(bulletCoords):
-		bulletCoords[count]=[int(i) for i in item]
+		bulletCoords[count]=[int(i) for i in item][0:2]
 
+	# print bulletCoords
 
 	network.addToSend(bulletCoords)
 	network.send()

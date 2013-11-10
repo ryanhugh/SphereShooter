@@ -15,7 +15,7 @@ updateBullets=None
 #tkinter is not thread safe, and the recieving data is in a thread 
 # so save this and update it in canvas on update
 newPlayerCoords=[]
-newBulletCorrds=[]
+newBulletCoords=[]
 
 
 
@@ -48,7 +48,7 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
 
     def handle(self):
     	global newPlayerCoords
-    	global newBulletCorrds
+    	global newBulletCoords
 
     	# get data
         clientAddr=self.client_address[0]
@@ -64,7 +64,7 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
 
         newPlayerCoords=data[0]
         
-        newBulletCorrds=data[1]
+        newBulletCoords=data[1]
 
 
 
