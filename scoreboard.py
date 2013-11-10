@@ -43,7 +43,7 @@ def scoreboardInit():
 	otherScoreLabelVar=StringVar()
 	otherScoreLabelVar.set("20")
 
-	scoreLabel=Label(upperFrame,textvariable=scoreLabelVar).grid(row=0,column=5)
+	scoreLabel=Label(upperFrame,textvariable=otherScoreLabelVar).grid(row=0,column=5)
 
 
 if __name__ == '__main__':
