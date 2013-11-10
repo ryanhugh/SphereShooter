@@ -1,5 +1,7 @@
-Hackathon project
+SphereShooter v.0.5
 =======
+
+A two-person LAN game. You control the blue sphere, your opponent the red. Fire bullets at him until one of you runs out of lives!
 
 'python mainfile.py' will run the program.
 
