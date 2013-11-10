@@ -1,7 +1,11 @@
 import network
 from network import *
+
 import helper
 from helper import *
+
+import scoreboard
+from scoreboard import *
 
 from Tkinter import *
 from random import *
@@ -10,21 +14,22 @@ from random import *
 root=Tk()
 
 
+
+
 frame=Frame()
-frame.grid(row=0,column=0)
+frame.grid(row=1,column=0)
 
 canvas=Canvas(frame,width=500,height=500)
-canvas.grid(row=0,column=0)
+canvas.grid(row=1,column=0)
+
+upperFrame=Frame(width=root.winfo_screenwidth())
+upperFrame.grid(row=0,column=0)
 
 lowerFrame=Frame(width=root.winfo_screenwidth())
-lowerFrame.grid(row=1,column=0)
+lowerFrame.grid(row=2,column=0)
 
 objects=[]
 
-
-helper.objects=objects
-helper.canvas=canvas
-helper.root=root
 
 #these functions run with the update()
 #copy the coordinates from network.newPlayerCoords to the Opponent data
@@ -39,18 +44,11 @@ def updateBullets():
 
 	while len(helper.opponentBullets)<len(network.newBulletCoords):
 		helper.opponentBullets.append(canvas.create_oval(0,0,10,10, fill="blue"))
-		# break
-		# helper.otherbullets.append(2)
-		#make a bullet! - FIXME
 
 	for count,bulletCoords in enumerate(network.newBulletCoords):
-		# print bulletCoords
+
 		canvas.coords(helper.opponentBullets[count],(bulletCoords[0],bulletCoords[1],10+bulletCoords[0],10+bulletCoords[1]))
-		# pass
-		# if None in bulletCoords:
-		# 	print 'djfalsdjfslkd'
-		# 	print network.newBulletCoords
-		# 	exit()
+
 	
 
 #send importiant stuff to network
@@ -58,6 +56,14 @@ network.lowerFrame=lowerFrame
 network.root=root
 network.updateOpponent=updateOpponent
 network.updateBullets=updateBullets
+
+
+helper.objects=objects
+helper.canvas=canvas
+helper.root=root
+
+scoreboard.upperFrame=upperFrame
+scoreboard.root=root
 
 
 
@@ -112,6 +118,7 @@ root.after(10,update)
 # ===== Init functions ===== #
 gfxInit()
 networkInit()
+scoreboardInit()
 
 root.mainloop()
 
