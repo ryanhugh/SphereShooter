@@ -1,4 +1,4 @@
-SphereShooter v.0.5
+SphereShooter v.1.0
 =======
 
 A two-person LAN game. You control the red sphere, your opponent the blue. Fire bullets at each other until one of you runs out of lives!
