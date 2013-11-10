@@ -8,9 +8,13 @@ bullets=[]
 opponentBullets=[]
 canvas=None
 root=None
+playerShot=None
 
 # ===== Player: the square, controlled by the user ===== #
 class Player:
+	radius=50 # Radius of sprite is 50
+	points=0
+	
 	def __init__(self):
 		self.deltaX=[0,0]
 	
@@ -23,19 +27,31 @@ class Player:
 		self.id=canvas.create_image(100, 100, image=photoimage)
 
 	def update(self):
-
 		self.position=canvas.coords(self.id)
 		
+		# ===== Edge detection ===== #
 		if (self.position[0] >= 450) or (self.position[0] <= 50):
 			self.deltaX[0]*=-1
 		if (self.position[1] >= 450) or (self.position[1] <= 50):
 			self.deltaX[1]*=-1
+			
+		# ===== Hit detection (by bullet) ===== #
+		if playerShot in objects:
+			pdistance=[playerShot.position[0]-self.position[0], playerShot.position[1]-self.position[1]]
+			odistance=[playerShot.position[0]-opponent.position[0], playerShot.position[1]-opponent.position[1]]
+			if (playerShot.radius+self.radius)<=vecMagnitude(pdistance): # If the player is hit, -1
+				self.points-=1
+				playerShot.vanish()
+			elif (playerShot.radius+opponent.radius)<=vecMagnitude(odistance): # If the opponent is hit, +1
+				self.points+=1
+				playerShot.vanish()
 
-		# print self.position
 		canvas.move(self.id,self.deltaX[0], self.deltaX[1])
 		
 # ===== Opponent: the opponent of Player ===== #
 class Opponent:
+	radius=50
+	
 	def __init__(self):
 		self.deltaX=[0,0]
 	
@@ -57,6 +73,7 @@ class Opponent:
 # ===== Bullets are shot by the square ===== #
 class Bullet:
 	speed=10
+	radius=10
 
 	def __init__(self, pointer): # pointer refers to position of mouse pointer
 		objects.append(self)
@@ -80,6 +97,8 @@ class Bullet:
 		del self
 	
 	def update(self):
+		edges=canvas.coords(self.id)
+		self.position=[(edges[0]+edges[2])/2, (edges[1]+edges[3])/2]
 		if self in objects:
 			canvas.move(self.id,self.deltaX[0], self.deltaX[1])
 
