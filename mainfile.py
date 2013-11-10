@@ -99,8 +99,13 @@ def update():
 		if tkMessageBox.askyesno("You lost!", "Play again?"):			
 			restartfn(False)
 			network.doRestart=False
+			
+			# Schedule this function again
+			root.after(10,update)
 		else:
 			exit()
+
+		return
 
 	if scoreboard.otherScoreLabelVar.get()!=network.newOtherScore:
 		scoreboard.otherScoreLabelVar.set(network.newOtherScore)
@@ -112,6 +117,9 @@ def update():
 		if tkMessageBox.askyesno("You won!", "Play again?"):			
 			restartfn(False)
 			network.doRestart=False
+
+			# Schedule this function again
+			root.after(10,update)
 		else:
 			exit()
 		return	
