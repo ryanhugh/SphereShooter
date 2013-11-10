@@ -19,9 +19,9 @@ class Player:
 		self.position=canvas.coords(self.id)
 
 		if (self.position[2] >= 500) or (self.position[0] <= 0):
-			self.deltaX[0]-=1.9*self.deltaX[0] # No longer a perfectly elastic collision
+			self.deltaX[0]*=-1
 		if (self.position[3] >= 500) or (self.position[1] <= 0):
-			self.deltaX[1]-=1.9*self.deltaX[1] # No longer a perfectly elastic collision
+			self.deltaX[1]*=-1
 
 
 
