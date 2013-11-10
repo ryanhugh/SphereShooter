@@ -13,9 +13,7 @@ Requirements:
 
 TODO
 =======
-- "You won"/"You lost" dialogue box
 - "Opponent has left" notification
 - Better graphics
-- Clean up code
 - Name?
 - Etc?
