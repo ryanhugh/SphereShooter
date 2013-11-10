@@ -10,7 +10,7 @@ CANVASHEIGHT=650
 BULLETRADIUS=5
 
 PLAYERLIVES=20
-CONTROLSENSITIVITY=.2
+CONTROLSENSITIVITY=.5
 
 # ===== Initialized empty, Updated by mainfile ===== #
 canvas=None
@@ -24,7 +24,6 @@ objects=[]
 bullets=[]
 opponentBullets=[]
 
-# playerShot=None #this didn't do anything?
 
 #keep track of bullets that hit so any network lag doesn't cause the same bullet to hit twice
 bulletsThatHitMe=[]
