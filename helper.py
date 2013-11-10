@@ -20,7 +20,7 @@ PLAYERLIVES=20
 # ===== Initialized empty, Updated by mainfile ===== #
 canvas=None
 root=None
-setLives=None
+updateLivesLabel=None
 restartfn=None
 
 
@@ -77,7 +77,7 @@ class Player:
 					continue
 
 				self.lives-=1
-				setLives(self.lives)
+				updateLivesLabel()
 
 				canvas.delete(bullet)
 

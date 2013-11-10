@@ -87,7 +87,7 @@ network.updateBullets=updateBullets
 helper.objects=objects
 helper.canvas=canvas
 helper.root=root
-helper.setLives=scoreboard.setLives
+helper.updateLivesLabel=scoreboard.updateLivesLabel
 helper.restartfn=restartfn
 
 

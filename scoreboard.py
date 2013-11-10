@@ -20,7 +20,7 @@ otherScoreLabelVar=None
 otherScoreLabel=None
 
 
-def setLives(thelives):
+def updateLivesLabel():
 	scoreLabelVar.set(str(helper.player.lives))
 
 
