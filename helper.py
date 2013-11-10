@@ -45,7 +45,6 @@ class Player:
 				self.lives-=1
 				canvas.delete(bullet)
 				bulletsToStopSending.append(bullet.uuid)
-				print 'telling opponent to kill',bullet.uuid
 				# opponentBullets.remove(bullet)
 				# send bullet back to opponent
 		

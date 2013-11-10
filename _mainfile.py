@@ -52,6 +52,7 @@ def updateBullets():
 
 	# make new bullets if we dont have enough
 	while len(helper.opponentBullets)<len(network.newBulletCoords):
+		print 'creating opp bull'
 		helper.opponentBullets.append(OpponentBullet())
 
 
@@ -115,7 +116,9 @@ def update():
 
 
 	for localBulletUuid in network.recievedBulletsToStopSending:
+		print 'looking for',localBulletUuid
 		for localbullet in helper.bullets:
+			print 'checking',id(localbullet)
 			if localBulletUuid==id(localbullet):
 				canvas.delete(localbullet.id)
 
@@ -124,6 +127,7 @@ def update():
 
 
 
+				print 'deleting local bullet',id(localbullet),'because it hit opponate'
 
 
 	helper.bulletsToStopSending=[]

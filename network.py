@@ -65,9 +65,6 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
         newPlayerCoords=data[0]
         newBulletCoords=data[1]
         recievedBulletsToStopSending=data[2]
-        if recievedBulletsToStopSending!=[]:
-        	
-	        print 'got',recievedBulletsToStopSending
 
         
                     
