@@ -175,8 +175,11 @@ def gfxInit():
 		del bullets[0]
 	
 	# ===== Draw background ===== #	
-	background = ImageTk.PhotoImage(file="graphics/bg.jpg")
-	bgID = canvas.create_image(CANVASWIDTH/2, CANVASHEIGHT/2, image=background)
+	try:
+		background = ImageTk.PhotoImage(file="graphics/bg.jpg")
+		bgID = canvas.create_image(CANVASWIDTH/2, CANVASHEIGHT/2, image=background)
+	except:
+		pass
 	
 	
 	player=Player()
