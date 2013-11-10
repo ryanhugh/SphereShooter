@@ -124,9 +124,17 @@ def update():
 		return
 
 
+
+	if network.OppStatusBoxVar.get()!=network.newStatusString:
+		network.OppStatusBoxVar.set(network.newStatusString)
+		network.OppStatusBox.config(fg=network.newStatusColor)
+		
+
 	if network.isConnected and  (time.time()-network.TimeSinceLastPacket)*1000>network.CONNECTIONTIMEOUT:
 		print 'not connected any more'
 		network.isConnected=False
+		network.newStatusColor="red"
+		network.newStatusString="Not Connected"
 		network.OppStatusBoxVar.set("Not Connected")
 		network.OppStatusBox.config(fg='red')
 		

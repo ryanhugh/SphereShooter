@@ -28,7 +28,8 @@ OppStatusBoxVar=None
 TimeSinceLastPacket=0
 isConnected=False
 
-
+newStatusColor="red"
+newStatusString="No Opponent!"
 
 #tkinter is not thread safe, - all these act as buffers to communicate between threads
 
@@ -96,14 +97,17 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
 		global TimeSinceLastPacket
 		global isConnected
 		global iWon
+		global newStatusColor
+		global newStatusString
 
 
 		TimeSinceLastPacket=time.time()
 		if not isConnected:
 			print 'Connected!'
 			isConnected=True
-			OppStatusBoxVar.set("Connected")
-			OppStatusBox.config(fg='green')
+
+			newStatusString="Connected"
+			newStatusColor="green"
 
 
 		# get data
@@ -114,11 +118,11 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
 
 			
 		if destIp==currentIp:
-			OppStatusBoxVar.set("No Opponent!")
-			OppStatusBox.config(fg='red')
+			newStatusString="No Opponent!"
+			newStatusColor="red"
 		else:
-			OppStatusBoxVar.set("Connected")
-			OppStatusBox.config(fg='green')
+			newStatusString="Connected"
+			newStatusColor="green"
 
 		data = self.request[0]
 
