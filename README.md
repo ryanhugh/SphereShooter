@@ -12,10 +12,18 @@ Requirements:
 - [Python Imaging Library (PIL)](https://developers.google.com/appengine/docs/python/images/installingPIL)
 - *Linux*: python-imaging-tk (ImageTk)
 
+Controls:
+======
+| Key   | Action |
+|:-----:|--------|
+| WASD  | Move   |
+| R     | Restart|
+| B     | Print debug data to console |
+| ESC, Q| Quit   |
+| Left-click | Fire |
+
 
 TODO
 =======
-- "Opponent has left" notification
-- Better graphics
-- Name?
-- Etc?
+- Better graphics?
+- User interaction improvements
