@@ -8,8 +8,6 @@ from helper import *
 root=None
 upperFrame=None
 
-
-
 # ===== Important variables for this file ===== #
 #your score
 scoreLabelVar=None
@@ -18,7 +16,6 @@ scoreLabel=None
 #opponent's score
 otherScoreLabelVar=None
 otherScoreLabel=None
-
 
 def updateLivesLabel():
 	scoreLabelVar.set(str(helper.player.lives))
@@ -56,4 +53,4 @@ def scoreboardInit():
 
 
 if __name__ == '__main__':
-	import mainfile
+	import main

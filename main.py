@@ -12,13 +12,9 @@ from random import *
 import tkMessageBox
 import time
 
-
+# ===== Create the window ===== #
 root=Tk()
-
 root.title("SphereShooter v.0.5")
-
-
-#layout management
 
 #top frame for scores
 upperFrame=Frame(width=root.winfo_screenwidth())
@@ -215,5 +211,3 @@ networkInit()
 scoreboardInit()
 
 root.mainloop()
-
-

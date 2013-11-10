@@ -254,4 +254,4 @@ def networkInit():
 
 
 if __name__ == '__main__':
-	import mainfile
+	import main

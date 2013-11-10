@@ -216,4 +216,4 @@ def vecScale(vector, size):
 	return vector
 
 if __name__ == '__main__':
-	import mainfile
+	import main
