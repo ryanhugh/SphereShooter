@@ -7,6 +7,8 @@ from PIL import ImageTk
 CANVASWIDTH=1200
 CANVASHEIGHT=650
 
+BULLETRADIUS=5
+
 PLAYERLIVES=20
 CONTROLSENSITIVITY=.2
 
@@ -46,7 +48,7 @@ class Player:
 		# PIL has a bug in it, don't delete this line
 		self.photoimage=photoimage
 
-		self.id=canvas.create_image(250, 250, image=photoimage)
+		self.id=canvas.create_image(CANVASWIDTH/2, CANVASHEIGHT/2, image=photoimage)
 
 		self.position=canvas.coords(self.id)
 
@@ -67,7 +69,7 @@ class Player:
 			edges=canvas.coords(bullet.id)
 			bulletpos=[(edges[0]+edges[2])/2, (edges[1]+edges[3])/2]
 			distance=[bulletpos[0]-self.position[0], bulletpos[1]-self.position[1]]
-			if (bullet.RADIUS+self.radius)>=vecMagnitude(distance): # If the player is hit, -1
+			if (BULLETRADIUS+self.RADIUS)>=vecMagnitude(distance): # If the player is hit, -1
 
 				#if already hit that bullet, don't count it again (network lag)
 				if bullet.uuid in bulletsThatHitMe:
@@ -114,9 +116,8 @@ class Opponent:
 	
 # ===== Bullets are shot by the square ===== #
 class Bullet:
-	RADIUS=5
 	SPEED=10
-	TTL=2000
+	DURATION=2000
 
 	def __init__(self, pointer): # pointer refers to position of mouse pointer
 		objects.append(self)
@@ -126,8 +127,8 @@ class Bullet:
 		direction=[pointer[0]-player.position[0], pointer[1]-player.position[1]] 
 		self.deltaX=vecScale(direction,self.SPEED)
 
-		self.id=canvas.create_oval(player.position[0]-self.RADIUS,player.position[1]+self.RADIUS,player.position[0]+self.RADIUS,player.position[1]-self.RADIUS, fill="red")
-		root.after(self.TTL, self.vanish)
+		self.id=canvas.create_oval(player.position[0]-BULLETRADIUS,player.position[1]+BULLETRADIUS,player.position[0]+BULLETRADIUS,player.position[1]-BULLETRADIUS, fill="red")
+		root.after(self.DURATION, self.vanish)
 		
 	def vanish(self):
 		canvas.delete(self.id)
