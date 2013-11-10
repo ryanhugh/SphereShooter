@@ -105,15 +105,17 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
 			OppStatusBoxVar.set("Connected")
 			OppStatusBox.config(fg='green')
 
-		if destIp==currentIp:
-			OppStatusBoxVar.set("No Opponent!")
-			OppStatusBox.config(fg='red')
 
 		# get data
 		clientAddr=self.client_address[0]
 		if destIp!=clientAddr:
 			destIp=clientAddr
 			ipTextBoxVar.set(clientAddr)
+
+			
+		if destIp==currentIp:
+			OppStatusBoxVar.set("No Opponent!")
+			OppStatusBox.config(fg='red')
 
 		data = self.request[0]
 
