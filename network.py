@@ -8,6 +8,7 @@ import ast
 root=None
 lowerFrame=None
 ipTextBox=None
+ipTextBoxVar=None
 updateOpponent=None
 updateBullets=None
 
@@ -51,9 +52,14 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
     	global newPlayerCoords
     	global newBulletCoords
     	global recievedBulletsToStopSending
+    	global destIp
 
     	# get data
         clientAddr=self.client_address[0]
+        if destIp!=clientAddr:
+        	destIp=clientAddr
+        	ipTextBoxVar.set(clientAddr)
+
         data = ast.literal_eval(self.request[0])
         
         # incoming is list:
@@ -130,14 +136,18 @@ def networkInit():
 	#label and text box
 	Label(lowerFrame,text="ip Address:").grid(row=1,column=2)
 
-	ipTextBox = Entry(lowerFrame)
-	ipTextBox.grid(row=1,column=3,padx=50)
 
 	currentIp=waitForWifi()
 
+
+	ipTextBoxVar=StringVar()
+	ipTextBoxVar.set(currentIp)
+
+	ipTextBox = Entry(lowerFrame,textvariable=ipTextBoxVar)
+	ipTextBox.grid(row=1,column=3,padx=50)
+
 	#for testing
-	ipTextBox.insert(0,currentIp)
-	enterButtonClicked(9)
+	enterButtonClicked(42)
 
 
 	#unfocus text box when enter is clicked
