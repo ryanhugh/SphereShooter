@@ -68,11 +68,17 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
         	destIp=clientAddr
         	ipTextBoxVar.set(clientAddr)
 
-        data = ast.literal_eval(self.request[0])
+        data = self.request[0]
 
         if data=="restart!":
         	restartfn()
+
+        if not data.startswith('['):
+        	print 'you win!'
         
+
+        data = ast.literal_eval(data)
+
         # incoming is list:
         # 1: list of player coords
         # 2: list of bullets
