@@ -10,6 +10,7 @@ from scoreboard import *
 from Tkinter import *
 from random import *
 import tkMessageBox
+import time
 
 
 root=Tk()
@@ -122,7 +123,15 @@ def update():
 			root.after(10,update)
 		else:
 			exit()
-		return	
+		return
+
+
+	# print 'checking ',time.time()-network.TimeSinceLastPacket
+	if network.isConnected and  (time.time()-network.TimeSinceLastPacket)*1000>network.CONNECTIONTIMEOUT:
+		print 'not connected any more'
+		network.isConnected=False
+		network.OppStatusBoxVar.set("Not Connected")
+		
 		
 	#update speed
 	deltaSpeed=[0,0]
