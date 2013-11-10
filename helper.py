@@ -163,6 +163,7 @@ def gfxInit():
 	global player
 	global opponent
 	global lastFireTime
+	global background
 	print 'restarting'
 	canvas.delete(ALL)
 
@@ -173,12 +174,15 @@ def gfxInit():
 	while len(bullets):
 		del bullets[0]
 	
+	# ===== Draw background ===== #	
+	background = ImageTk.PhotoImage(file="graphics/bg.jpg")
+	bgID = canvas.create_image(CANVASWIDTH/2, CANVASHEIGHT/2, image=background)
+	
+	
 	player=Player()
 	opponent=Opponent()
 
 	lastFireTime=time.time()
-
-
 
 def onKey(event):
 	#key press
