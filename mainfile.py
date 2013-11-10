@@ -13,7 +13,7 @@ from random import *
 
 root=Tk()
 
-
+root.title("SphereShoot v.0.1")
 
 frame=Frame()
 frame.grid(row=1,column=0)
