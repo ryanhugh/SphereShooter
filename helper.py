@@ -3,6 +3,7 @@ from math import *
 
 # ===== Initialised empty, Updated by mainfile ===== #
 objects=[]
+bullets=[]
 canvas=None
 root=None
 
@@ -36,22 +37,32 @@ class Opponent:
 
 # ===== Bullets are shot by the square ===== #
 class Bullet:
+	speed=10
+
 	def __init__(self, pointer): # pointer refers to position of mouse pointer
 		objects.append(self)
+		bullets.append(self)
 		
-
 		playerPos=[(player.position[2]+player.position[0])/2, (player.position[3]+player.position[1])/2] # Shoot from the center
-		self.id=canvas.create_line(playerPos, pointer, fill="red", dash=(4,4))
+		direction=[pointer[0]-playerPos[0], pointer[1]-playerPos[1]] # Direction vector along which bullet will travel
+		self.deltaX=vecScale(direction, self.speed)
+
+		#self.id=canvas.create_line(playerPos, pointer, fill="red", dash=(4,4))
+		self.id=canvas.create_oval(playerPos[0]-10,playerPos[1]+10,playerPos[0]+10,playerPos[1]-10, fill="red")
+		root.after(1000, self.vanish)
 		
 	def vanish(self):
 		canvas.delete(self.id)
 
-		#this is called more than once for some reason
+		# These are called more than once for some reason
 		if self in objects:
 			objects.remove(self)
+		if self in bullets:
+			bullets.remove(self)
 	
 	def update(self):
-		root.after(100, self.vanish)
+		if self in objects:
+			canvas.move(self.id,self.deltaX[0], self.deltaX[1])
 
 def gfxInit():
 	global player
@@ -71,7 +82,9 @@ def onKey(event):
 	if event.keysym == "b":
 		print "DEBUG DATA:"
 		print "Player coords: ", canvas.coords(player.id)
-		print "Player move vector: ", player.deltaX, " speed=", sqrt(player.deltaX[0]**2+player.deltaX[1]**2)
+		print "Player move vector: ", player.deltaX, " speed=", vecMagnitude(player.deltaX)
+	if event.keysym == "x":
+		player.deltaX=[0,0]
 	elif event.keysym in ["w","a","s","d"]:
 		deltaV={"w":[0,-1],"a":[-1,0],"s":[0,1],"d":[1,0]}[event.keysym]
 		player.deltaX[0]+=deltaV[0]
@@ -84,7 +97,21 @@ def onKey(event):
 def onClick(event):
 	mouse=[event.x, event.y] # Coordinates of mouse at click
 	playerShot=Bullet(mouse)
-	print mouse
+	
+# Find magnitude of vector of size n
+def vecMagnitude(vector):
+	sq_sum=0
+	for component in vector:
+		sq_sum+=component**2
+	return sqrt(sq_sum)
+
+# Scale vector to size
+def vecScale(vector, size):
+	magnitude=vecMagnitude(vector)
+	for count, component in enumerate(vector):
+		vector[count]=component/magnitude
+		vector[count]*=size
+	return vector
 
 if __name__ == '__main__':
 	import mainfile
