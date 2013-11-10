@@ -1,3 +1,4 @@
+import time
 from Tkinter import *
 from math import *
 from PIL import ImageTk
@@ -11,6 +12,7 @@ BULLETRADIUS=5
 
 PLAYERLIVES=20
 CONTROLSENSITIVITY=.5
+FIRERATELIMIT=200
 
 # ===== Initialized empty, Updated by mainfile ===== #
 canvas=None
@@ -33,6 +35,8 @@ bulletsToStopSending=[]
 
 #keep track of pressed keys for smooth movement
 pressedKeys={"w":False,"a":False,"s":False,"d":False}
+
+lastFireTime=0
 
 # ===== Player: the square, controlled by the user ===== #
 class Player:
@@ -158,6 +162,7 @@ class OpponentBullet:
 def gfxInit():
 	global player
 	global opponent
+	global lastFireTime
 	print 'restarting'
 	canvas.delete(ALL)
 
@@ -170,6 +175,9 @@ def gfxInit():
 	
 	player=Player()
 	opponent=Opponent()
+
+	lastFireTime=time.time()
+
 
 
 def onKey(event):
@@ -196,9 +204,12 @@ def onKey(event):
 
 
 def onClick(event):
+	global lastFireTime
 	
-	# Coordinates of mouse at click
-	Bullet([event.x, event.y])
+	if (time.time()-lastFireTime)*1000>FIRERATELIMIT:
+		lastFireTime=time.time()
+		# Coordinates of mouse at click
+		Bullet([event.x, event.y])
 	
 # Find magnitude of vector of size n
 def vecMagnitude(vector):
