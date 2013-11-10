@@ -3,7 +3,8 @@ SphereShooter v.0.5
 
 A two-person LAN game. You control the red sphere, your opponent the blue. Fire bullets at each other until one of you runs out of lives!
 
-'python main.py' will run the game.
+- 'python main.py' will run the game.
+- Place a "bg.jpg" image into graphics/ to use a background image (1200x650+ recommended)
 
 Requirements:
 =====
