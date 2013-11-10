@@ -74,6 +74,7 @@ def restartfn(didWin):
 
 	gfxInit()
 	scoreboardInit()
+	sendRestartMsg()
 
 
 #copy globals to other modules
@@ -172,9 +173,7 @@ def update():
 	
 	if helper.player.lives<0:
 		print "Out of lives!"
-		sendRestartMsg()
-		gfxInit()
-		scoreboardInit()
+		restartfn(False)
 
 	if scoreboard.otherScoreLabelVar.get()!=network.newOtherScore:
 		scoreboard.otherScoreLabelVar.set(network.newOtherScore)
