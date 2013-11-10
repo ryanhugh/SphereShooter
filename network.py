@@ -46,15 +46,10 @@ iWon=False
 #opponent's score
 newOtherScore=""
 
-
-
-
 #network stuff
 destIp=None
 
 dataToSend=[]
-
-
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
@@ -105,11 +100,14 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
 
 		TimeSinceLastPacket=time.time()
 		if not isConnected:
-			print 'connected!'
+			print 'Connected!'
 			isConnected=True
 			OppStatusBoxVar.set("Connected")
 			OppStatusBox.config(fg='green')
 
+		if destIp==currentIp:
+			OppStatusBoxVar.set("No Opponent!")
+			OppStatusBox.config(fg='red')
 
 		# get data
 		clientAddr=self.client_address[0]
@@ -210,6 +208,7 @@ def networkInit():
 	global ipTextBoxVar
 	global OppStatusBox
 	global OppStatusBoxVar
+	global currentIp
 
 	# padding between box and ip
 	Label(lowerFrame,text="                                            ").grid(row=1,column=1)
