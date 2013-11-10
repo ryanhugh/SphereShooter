@@ -79,10 +79,10 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
     def handle(self):
     	global newPlayerCoords
     	global newBulletCoords
+        global newOtherScore
     	global recievedBulletsToStopSending
     	global destIp
     	global doRestart
-    	global newOtherScore
 
     	# get data
         clientAddr=self.client_address[0]
@@ -96,8 +96,12 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
         	doRestart=True
         	print 'told to restart!'
         	return
-
-        data = ast.literal_eval(data)
+        try:
+            data = ast.literal_eval(data)
+        except Exception as e:
+            print 'bad packet!',e
+            print data
+            return
 
         # incoming is list:
         # 1: list of player coords
