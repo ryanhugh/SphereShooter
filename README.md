@@ -6,4 +6,6 @@ Hackathon project
 Requirements:
 =====
 - Python 2.7.5+
-- python-tkinter
+- python-tkinter (Tkinter)
+- python-imaging (PIL)
+- python-imaging-tk (ImageTk)
