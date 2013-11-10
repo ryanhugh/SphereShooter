@@ -50,6 +50,7 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
     def handle(self):
     	global newPlayerCoords
     	global newBulletCoords
+    	global recievedBulletsToStopSending
 
     	# get data
         clientAddr=self.client_address[0]
@@ -64,6 +65,9 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
         newPlayerCoords=data[0]
         newBulletCoords=data[1]
         recievedBulletsToStopSending=data[2]
+        if recievedBulletsToStopSending!=[]:
+        	
+	        print 'got',recievedBulletsToStopSending
 
         
                     

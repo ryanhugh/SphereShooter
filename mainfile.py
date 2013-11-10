@@ -116,13 +116,20 @@ def update():
 	network.send()
 
 
-	for localBulletUuid in helper.bulletsToStopSending:
+	for localBulletUuid in network.recievedBulletsToStopSending:
+		print 'looking for',localBulletUuid
 		for localbullet in helper.bullets:
+			print 'checking',id(localbullet)
 			if localBulletUuid==id(localbullet):
 				canvas.delete(localbullet.id)
 
 				helper.objects.remove(localbullet)
 				helper.bullets.remove(localbullet)
+				# for opponentBullet in opponentBullets:
+				# 	canvas.delete(opponentBullet.id)
+
+
+
 				print 'deleting local bullet',id(localbullet),'because it hit opponate'
 
 
