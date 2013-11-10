@@ -128,6 +128,7 @@ def enterButtonClicked(event):
 
 def networkInit():
 	global ipTextBox
+	global ipTextBoxVar
 
 	# padding between box and ip
 	Label(lowerFrame,text="                                            ").grid(row=1,column=1)
