@@ -137,7 +137,6 @@ def update():
 		print "Out of lives!"
 		gfxInit()
 		scoreboardInit()
-		networkInit()
 
 	#schedule this function again
 	root.after(10,update)
