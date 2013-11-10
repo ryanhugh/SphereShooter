@@ -13,7 +13,7 @@ playerShot=None
 # ===== Player: the square, controlled by the user ===== #
 class Player:
 	radius=50 # Radius of sprite is 50
-	points=0
+	lives=5
 	
 	def __init__(self):
 		self.deltaX=[0,0]
@@ -36,15 +36,19 @@ class Player:
 			self.deltaX[1]*=-1
 			
 		# ===== Hit detection (by bullet) ===== #
-		if playerShot in objects:
-			pdistance=[playerShot.position[0]-self.position[0], playerShot.position[1]-self.position[1]]
-			odistance=[playerShot.position[0]-opponent.position[0], playerShot.position[1]-opponent.position[1]]
-			if (playerShot.radius+self.radius)<=vecMagnitude(pdistance): # If the player is hit, -1
-				self.points-=1
-				playerShot.vanish()
-			elif (playerShot.radius+opponent.radius)<=vecMagnitude(odistance): # If the opponent is hit, +1
-				self.points+=1
-				playerShot.vanish()
+		for bullet in opponentBullets:
+			edges=canvas.coords(bullet)
+			bulletpos=[(edges[0]+edges[2])/2, (edges[1]+edges[3])/2]
+			distance=[bulletpos[0]-self.position[0], bulletpos[1]-self.position[1]]
+			if (5+self.radius)<=vecMagnitude(distance): # If the player is hit, -1
+				self.lives-=1
+				canvas.delete(bullet)
+				opponentBullets.remove(bullet)
+				# send bullet back to opponent
+		
+		# ===== Limit speed to 10 ===== #
+		if vecMagnitude(self.deltaX)>10:
+			vecScale(self.deltaX, 10)
 
 		canvas.move(self.id,self.deltaX[0], self.deltaX[1])
 		
@@ -57,7 +61,7 @@ class Opponent:
 	
 		objects.append(self)
 
-		photoimage = ImageTk.PhotoImage(file="graphics/player1.png")
+		photoimage = ImageTk.PhotoImage(file="graphics/player2.png")
 
 		#pil has a bug in it, dont delete this line
 		self.photoimage=photoimage
@@ -73,7 +77,7 @@ class Opponent:
 # ===== Bullets are shot by the square ===== #
 class Bullet:
 	speed=10
-	radius=10
+	radius=5
 
 	def __init__(self, pointer): # pointer refers to position of mouse pointer
 		objects.append(self)
@@ -82,7 +86,7 @@ class Bullet:
 		direction=[pointer[0]-player.position[0], pointer[1]-player.position[1]] # Direction vector along which bullet will travel
 		self.deltaX=vecScale(direction, self.speed)
 
-		self.id=canvas.create_oval(player.position[0]-10,player.position[1]+10,player.position[0]+10,player.position[1]-10, fill="red")
+		self.id=canvas.create_oval(player.position[0]-5,player.position[1]+5,player.position[0]+5,player.position[1]-5, fill="red")
 		root.after(1000, self.vanish)
 		
 	def vanish(self):
