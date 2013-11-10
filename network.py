@@ -41,6 +41,7 @@ recievedBulletsToStopSending=[]
 
 #opponent sent restart message
 doRestart=False
+iWon=False
 
 #opponent's score
 newOtherScore=""
@@ -77,6 +78,12 @@ def sendRestartMsg():
 	sock.sendto("restart!", (destIp, PORT))
 	
 
+def sendLoseMsg():
+	sock.sendto("ILose!", (destIp, PORT))
+	sock.sendto("ILose!", (destIp, PORT))
+	sock.sendto("ILose!", (destIp, PORT))
+	
+
 
 def addToSend(data):
 	dataToSend.append(data)
@@ -93,6 +100,7 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
 		global doRestart
 		global TimeSinceLastPacket
 		global isConnected
+		global iWon
 
 
 		TimeSinceLastPacket=time.time()
@@ -115,6 +123,13 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
 			doRestart=True
 			print 'told to restart!'
 			return
+
+		if data=="ILose!":
+			iWon=True
+			print 'told that i have won!'
+			return
+
+
 		try:
 			data = ast.literal_eval(data)
 		except Exception as e:
