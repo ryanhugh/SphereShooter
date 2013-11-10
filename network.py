@@ -8,6 +8,7 @@ import time
 
 # ===== Constants ===== #
 PORT =  4242
+CONNECTIONTIMEOUT=2000
 
 # ===== Initialized empty, Updated by mainfile ===== #
 root=None
@@ -19,6 +20,12 @@ updateBullets=None
 # ===== Important variables for this file ===== #
 ipTextBox=None
 ipTextBoxVar=None
+
+OppStatusBox=None
+OppStatusBoxVar=None
+
+TimeSinceLastPacket=0
+isConnected=False
 
 
 
@@ -76,83 +83,94 @@ def addToSend(data):
 
 class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
 
-    def handle(self):
-    	global newPlayerCoords
-    	global newBulletCoords
-        global newOtherScore
-    	global recievedBulletsToStopSending
-    	global destIp
-    	global doRestart
-
-    	# get data
-        clientAddr=self.client_address[0]
-        if destIp!=clientAddr:
-        	destIp=clientAddr
-        	ipTextBoxVar.set(clientAddr)
-
-        data = self.request[0]
-
-        if data=="restart!":
-        	doRestart=True
-        	print 'told to restart!'
-        	return
-        try:
-            data = ast.literal_eval(data)
-        except Exception as e:
-            print 'bad packet!',e
-            print data
-            return
-
-        # incoming is list:
-        # 1: list of player coords
-        # 2: list of bullets
-        	# each bullets coords
-        # 3 uuids of each bullet that should be deleted
-        # other person's score
-
-        newPlayerCoords=data[0]
-        newBulletCoords=data[1]
+	def handle(self):
+		global newPlayerCoords
+		global newBulletCoords
+		global newOtherScore
+		global recievedBulletsToStopSending
+		global destIp
+		global doRestart
+		global TimeSinceLastPacket
+		global isConnected
 
 
-        recievedBulletsToStopSending=data[2]
-        
-        newOtherScore=str(data[3])
+		TimeSinceLastPacket=time.time()
+		if not isConnected:
+			print 'connected!'
+			isConnected=True
+			OppStatusBoxVar.set("Connected")
 
-        
-                    
+
+		# get data
+		clientAddr=self.client_address[0]
+		if destIp!=clientAddr:
+			destIp=clientAddr
+			ipTextBoxVar.set(clientAddr)
+
+		data = self.request[0]
+
+		if data=="restart!":
+			doRestart=True
+			print 'told to restart!'
+			return
+		try:
+			data = ast.literal_eval(data)
+		except Exception as e:
+			print 'bad packet!',e
+			print data
+			return
+
+		# incoming is list:
+		# 1: list of player coords
+		# 2: list of bullets
+			# each bullets coords
+		# 3 uuids of each bullet that should be deleted
+		# other person's score
+
+		newPlayerCoords=data[0]
+		newBulletCoords=data[1]
+
+
+		recievedBulletsToStopSending=data[2]
+		
+		newOtherScore=str(data[3])
+
+		
+					
 
 class ThreadedUDPServer(SocketServer.ThreadingMixIn, SocketServer.UDPServer):
-    pass
+	pass
 
 
 #waits for wifi to start up and obtain a ip address
 def getIpAddress():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    while 42:
-        sockport='192.168.0.100'
-        try:
+	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	while 42:
+		sockport='192.168.0.100'
+		try:
 
-            #try to connect to some other ip
-            s.connect((sockport, 9999))
+			#try to connect to some other ip
+			s.connect((sockport, 9999))
 
-            #if wifi is up, this will be current ip address
-            currentIp=s.getsockname()[0]
+			#if wifi is up, this will be current ip address
+			currentIp=s.getsockname()[0]
 
-            #then close the connection
-            s.close()
-            print 'current ip:',currentIp
-            
-            return currentIp
-        except:
-            print 'ERROR:could not open socket to ',sockport,'!'
+			#then close the connection
+			s.close()
+			print 'current ip:',currentIp
+			
+			return currentIp
+		except:
+			print 'ERROR:could not open socket to ',sockport,'!'
 
-        #wait before trying again
-        time.sleep(1)
+		#wait before trying again
+		time.sleep(1)
 
 
 
 def enterButtonClicked(event):
 	global destIp
+	global isConnected
 
 	#unfocus text box
 	root.focus_set()
@@ -161,6 +179,8 @@ def enterButtonClicked(event):
 	if not re.match(r'(\d+\.){3}\d+',ipTextBox.get()):
 		print "invalid ip address"
 		destIp=None
+		isConnected=False
+		OppStatusBoxVar.set("Not Connected")
 		return
 
 	destIp=ipTextBox.get()
@@ -170,6 +190,8 @@ def enterButtonClicked(event):
 def networkInit():
 	global ipTextBox
 	global ipTextBoxVar
+	global OppStatusBox
+	global OppStatusBoxVar
 
 	# padding between box and ip
 	Label(lowerFrame,text="                                            ").grid(row=1,column=1)
@@ -186,7 +208,14 @@ def networkInit():
 	ipTextBoxVar.set(currentIp)
 
 	ipTextBox = Entry(lowerFrame,textvariable=ipTextBoxVar)
-	ipTextBox.grid(row=1,column=3,padx=50)
+	ipTextBox.grid(row=1,column=3,padx=5)
+
+
+	OppStatusBoxVar=StringVar()
+	OppStatusBoxVar.set("Not connected")
+
+	OppStatusBox = Label(lowerFrame,textvariable=OppStatusBoxVar)
+	OppStatusBox.grid(row=1,column=4)
 
 	#for testing
 	enterButtonClicked(42)
