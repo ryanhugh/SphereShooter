@@ -97,6 +97,8 @@ def update():
 	for obj in objects:
 		obj.update()
 
+
+
 	bulletCoords=[]
 
 	#make array of coords from bullets
@@ -110,9 +112,16 @@ def update():
 		bulletCoords[count][1]=int(bulletCoords[count][1])
 		bulletCoords[count][2]=int(bulletCoords[count][2])
 
+
+
 	#send coords of everything
 	#dont change the order of this
 	network.addToSend([int(i) for i in canvas.coords(helper.player.id)])
+	# for bulletcoord in bulletCoords:
+	# 	if len(bulletcoord)==2:
+	# 		print 'uh oh!!!!!'
+	# 		exit()
+
 	network.addToSend(bulletCoords)
 	network.addToSend(helper.bulletsToStopSending)
 	network.send()
@@ -126,20 +135,18 @@ def update():
 				helper.objects.remove(localbullet)
 				helper.bullets.remove(localbullet)
 
+
+
+
+
 	helper.bulletsToStopSending=[]
 
 	#if there is no opponent, don't update Opponent and Opponent bullets
 	if network.destIp:
 		updateBullets()
 		updateOpponent()
-	
-	if helper.player.lives<0:
-		print "Out of lives!"
-		gfxInit()
-		scoreboardInit()
-		networkInit()
 
-	#schedule this function again
+	#schedual this funciton again
 	root.after(10,update)
 
 

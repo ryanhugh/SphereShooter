@@ -64,6 +64,11 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
 
         newPlayerCoords=data[0]
         newBulletCoords=data[1]
+        # for bulletcoord in newBulletCoords:
+        # 	if  len(bulletcoord)==2:
+        # 		print "uh oh!!"
+        # 		newBulletCoords=[]
+        # 		break
         recievedBulletsToStopSending=data[2]
 
         
