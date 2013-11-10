@@ -70,6 +70,8 @@ def updateBullets():
 def restartfn(didWin,doSendMsg):
 	if didWin:
 		print 'you killed the opponent!'
+		if not tkMessageBox.askyesno("You won!", "Play again?"):
+			exit()
 	else:
 		print 'restarting!'
 
@@ -85,42 +87,34 @@ network.root=root
 network.updateOpponent=updateOpponent
 network.updateBullets=updateBullets
 
-
-
 helper.objects=objects
 helper.canvas=canvas
 helper.root=root
 helper.updateLivesLabel=scoreboard.updateLivesLabel
 helper.restartfn=restartfn
 
-
-
 scoreboard.upperFrame=upperFrame
 scoreboard.root=root
-
-
 
 def update():
 
 	if helper.player.lives<0:
 		print "Out of lives!"
+		sendRestartMsg()
 		if tkMessageBox.askyesno("You lost!", "Play again?"):			
-			restartfn(False,True)
+			restartfn(False,False)
 		else:
 			exit()
 
 	if scoreboard.otherScoreLabelVar.get()!=network.newOtherScore:
 		scoreboard.otherScoreLabelVar.set(network.newOtherScore)
 
-	#schedule this function again
-	root.after(10,update)
-	
 	#if threading udp server got restart packet, restart
 	if network.doRestart:
 		restartfn(True,False)
 		network.doRestart=False
-		return
-
+		return	
+		
 	#update speed
 	deltaSpeed=[0,0]
 	for key in helper.pressedKeys:
@@ -182,6 +176,10 @@ def update():
 	if network.destIp:
 		updateBullets()
 		updateOpponent()
+		
+	# Schedule this function again
+	root.after(10,update)
+
 
 
 # ===== Key binding ===== #
