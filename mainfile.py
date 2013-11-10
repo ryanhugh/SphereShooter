@@ -126,6 +126,7 @@ def update():
 		print 'not connected any more'
 		network.isConnected=False
 		network.OppStatusBoxVar.set("Not Connected")
+		network.OppStatusBox.config(fg='red')
 		
 		
 	#update speed
