@@ -1,7 +1,11 @@
 import network
 from network import *
+
 import helper
 from helper import *
+
+import bulletFile
+from bulletFile import *
 
 from Tkinter import *
 from random import *
@@ -25,6 +29,10 @@ objects=[]
 helper.objects=objects
 helper.canvas=canvas
 helper.root=root
+
+bulletFile.objects=objects
+bulletFile.canvas=canvas
+bulletFile.root=root
 
 
 def updateOpponent(coords):

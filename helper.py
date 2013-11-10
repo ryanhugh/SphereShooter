@@ -1,10 +1,17 @@
 from Tkinter import *
 from math import *
 
+from bulletFile import *
+import bulletFile
+
 # ===== Initialised empty, Updated by mainfile ===== #
 objects=[]
 canvas=None
 root=None
+
+
+# ===== Initialised empty, Updated later by this file ===== #
+player=None
 
 # ===== Player: the square, controlled by the user ===== #
 class Player:
@@ -34,24 +41,7 @@ class Opponent:
 	def update(self):
 		pass
 
-# ===== Bullets are shot by the square ===== #
-class Bullet:
-	def __init__(self, pointer): # pointer refers to position of mouse pointer
-		objects.append(self)
-		
 
-		playerPos=[(player.position[2]+player.position[0])/2, (player.position[3]+player.position[1])/2] # Shoot from the center
-		self.id=canvas.create_line(playerPos, pointer, fill="red", dash=(4,4))
-		
-	def vanish(self):
-		canvas.delete(self.id)
-
-		#this is called more than once for some reason
-		if self in objects:
-			objects.remove(self)
-	
-	def update(self):
-		root.after(100, self.vanish)
 
 def gfxInit():
 	global player
@@ -62,6 +52,7 @@ def gfxInit():
 		del objects[i]
 	
 	player=Player()
+	bulletFile.player=player
 	opponent=Opponent()
 
 
