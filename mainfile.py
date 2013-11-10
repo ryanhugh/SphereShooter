@@ -99,9 +99,13 @@ scoreboard.root=root
 
 
 def update():
+	# print 'updating',network.doRestart
 	if network.doRestart:
 		restartfn()
 		network.doRestart=False
+
+		#schedule this function again
+		root.after(10,update)
 		return
 
 
@@ -115,6 +119,8 @@ def update():
 
 		# use the hex address of the bullet - id returns hex address
 		bulletCoords.append([id(helper.bullets[count])]+canvas.coords(bullet.id))
+		# if len(bulletCoords[-1])!=3:
+		# 	print bulletCoords[-1],bullet,bullet.id
 
 	#make all coords ints
 	for count,item in enumerate(bulletCoords):

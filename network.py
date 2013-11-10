@@ -64,6 +64,7 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
     	global newBulletCoords
     	global recievedBulletsToStopSending
     	global destIp
+    	global doRestart
 
     	# get data
         clientAddr=self.client_address[0]
@@ -75,6 +76,7 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
 
         if data=="restart!":
         	doRestart=True
+        	print 'told to restart!'
         	return
 
         data = ast.literal_eval(data)

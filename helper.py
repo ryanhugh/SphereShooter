@@ -124,6 +124,8 @@ def gfxInit():
 		del objects[0]
 	while len(opponentBullets):
 		del opponentBullets[0]
+	while len(bullets):
+		del bullets[0]
 	
 	player=Player()
 	opponent=Opponent()
