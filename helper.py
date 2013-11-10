@@ -37,7 +37,7 @@ class Player:
 			
 		# ===== Hit detection (by bullet) ===== #
 		for bullet in opponentBullets:
-			edges=canvas.coords(bullet)
+			edges=canvas.coords(bullet.id)
 			bulletpos=[(edges[0]+edges[2])/2, (edges[1]+edges[3])/2]
 			distance=[bulletpos[0]-self.position[0], bulletpos[1]-self.position[1]]
 			if (5+self.radius)<=vecMagnitude(distance): # If the player is hit, -1
