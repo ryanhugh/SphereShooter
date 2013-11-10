@@ -27,6 +27,9 @@ destIp=None
 
 dataToSend=[]
 
+
+doRestart=False
+
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 
@@ -71,11 +74,8 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
         data = self.request[0]
 
         if data=="restart!":
-        	restartfn()
-
-        if not data.startswith('['):
-        	print 'you win!'
-        
+        	doRestart=True
+        	return
 
         data = ast.literal_eval(data)
 
