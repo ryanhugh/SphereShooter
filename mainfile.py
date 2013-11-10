@@ -108,6 +108,17 @@ def update():
 		network.doRestart=False
 		return
 
+	#update speed
+	deltaSpeed=[0,0]
+	for key in helper.pressedKeys:
+		if helper.pressedKeys[key]:
+			newSpeed={"w":[0,-.1],"a":[-.1,0],"s":[0,.1],"d":[.1,0]}[key]
+			deltaSpeed[0]+=newSpeed	[0]
+			deltaSpeed[1]+=newSpeed	[1]
+
+	helper.player.deltaX[0]+=deltaSpeed[0]
+	helper.player.deltaX[1]+=deltaSpeed[1]
+
 
 	for obj in objects:
 		obj.update()
@@ -175,6 +186,7 @@ def update():
 # ESC,q -> quit
 # b -> debug
 root.bind("<Key>", onKey)
+root.bind("<Any-KeyRelease>", onKey)
 canvas.bind("<Button-1>", onClick)
 
 Button(lowerFrame, text="Restart",command=gfxInit).grid(row=1,column=0)

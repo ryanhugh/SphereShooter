@@ -37,6 +37,10 @@ bulletsThatHitMe=[]
 #tell opponent to stop sending these bullets
 bulletsToStopSending=[]
 
+
+#keep track of pressed keys for smooth movement
+pressedKeys={"w":False,"a":False,"s":False,"d":False}
+
 # ===== Player: the square, controlled by the user ===== #
 class Player:
 	radius=50 # Radius of sprite is 50
@@ -173,22 +177,27 @@ def gfxInit():
 
 
 def onKey(event):
-	if event.keysym == "r":
-		restartfn(False)
-	if event.keysym == "b":
-		print "DEBUG DATA:"
-		print "Player coords: ", canvas.coords(player.id)
-		print "Player move vector: ", player.deltaX, " speed=", vecMagnitude(player.deltaX)
-	if event.keysym == "x":
-		player.deltaX=[0,0]
-	elif event.keysym in ["w","a","s","d"]:
-		deltaV={"w":[0,-1],"a":[-1,0],"s":[0,1],"d":[1,0]}[event.keysym]
-		player.deltaX[0]+=deltaV[0]
-		player.deltaX[1]+=deltaV[1]
-	elif event.keysym in ["<Escape>", "q"]:
-		exit()
-	else: # This keypress shouldn't be handled
+	#key press
+	if event.type=="2":
+		if event.keysym == "r":
+			restartfn(False)
+		if event.keysym == "b":
+			print "DEBUG DATA:"
+			print "Player coords: ", canvas.coords(player.id)
+			print "Player move vector: ", player.deltaX, " speed=", vecMagnitude(player.deltaX)
+		if event.keysym == "x":
+			player.deltaX=[0,0]
+		elif event.keysym in ["w","a","s","d"]:
+			pressedKeys[event.keysym]=True
+		elif event.keysym in ["<Escape>", "q"]:
+			exit()
 		return
+	#key release
+	elif event.type=="3":
+		pressedKeys[event.keysym]=False
+		return
+	print 'ERROR:',event.type
+
 
 def onClick(event):
 	
