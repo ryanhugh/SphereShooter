@@ -77,6 +77,7 @@ network.updateBullets=updateBullets
 helper.objects=objects
 helper.canvas=canvas
 helper.root=root
+helper.setLives=scoreboard.setLives
 
 scoreboard.upperFrame=upperFrame
 scoreboard.root=root
@@ -90,8 +91,6 @@ def update():
 
 
 	bulletCoords=[]
-
-	# print len(helper.bullets)
 
 	#make array of coords from bullets
 	for count,bullet in enumerate(helper.bullets):

@@ -11,6 +11,10 @@ canvas=None
 root=None
 playerShot=None
 
+setLives=None
+
+bulletsThatHitMe=[]
+
 # ===== Player: the square, controlled by the user ===== #
 class Player:
 	radius=50 # Radius of sprite is 50
@@ -42,11 +46,13 @@ class Player:
 			bulletpos=[(edges[0]+edges[2])/2, (edges[1]+edges[3])/2]
 			distance=[bulletpos[0]-self.position[0], bulletpos[1]-self.position[1]]
 			if (5+self.radius)>=vecMagnitude(distance): # If the player is hit, -1
+				if bullet.uuid in bulletsThatHitMe:
+					continue
 				self.lives-=1
 				canvas.delete(bullet)
 				bulletsToStopSending.append(bullet.uuid)
-				# opponentBullets.remove(bullet)
-				# send bullet back to opponent
+				setLives(self.lives)
+				bulletsThatHitMe.append(bullet.uuid)
 		
 		# ===== Limit speed to 10 ===== #
 		if vecMagnitude(self.deltaX)>10:
