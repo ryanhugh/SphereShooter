@@ -107,12 +107,13 @@ def update():
 
 	#if threading udp server got restart packet, restart
 	if network.doRestart:
-		sendRestartMsg()
-		restartfn(False)
 		print 'you killed the opponent!'
-		if not tkMessageBox.askyesno("You won!", "Play again?"):
+		sendRestartMsg()
+		if tkMessageBox.askyesno("You won!", "Play again?"):			
+			restartfn(False)
+			network.doRestart=False
+		else:
 			exit()
-		network.doRestart=False
 		return	
 		
 	#update speed
