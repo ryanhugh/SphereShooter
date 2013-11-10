@@ -24,7 +24,7 @@ class Player:
 		#pil has a bug in it, dont delete this line
 		self.photoimage=photoimage
 
-		self.id=canvas.create_image(100, 100, image=photoimage)
+		self.id=canvas.create_image(250, 250, image=photoimage)
 
 	def update(self):
 		self.position=canvas.coords(self.id)
