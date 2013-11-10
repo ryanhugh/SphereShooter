@@ -18,10 +18,10 @@ bulletsThatHitMe=[]
 # ===== Player: the square, controlled by the user ===== #
 class Player:
 	radius=50 # Radius of sprite is 50
-	lives=20
 	
 	def __init__(self):
 		self.deltaX=[0,0]
+		self.lives=20
 	
 		objects.append(self)
 		photoimage = ImageTk.PhotoImage(file="graphics/player1.png")

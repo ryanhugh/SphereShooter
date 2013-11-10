@@ -125,6 +125,8 @@ def update():
 	if helper.player.lives<0:
 		print "Out of lives!"
 		gfxInit()
+		scoreboardInit()
+		networkInit()
 
 	#schedule this function again
 	root.after(10,update)
