@@ -31,7 +31,13 @@ def updateOpponent(coords):
 
 	# helper.opponate.coords=
 	# print 'setting enemy to corrds:',coords
+<<<<<<< HEAD
 	canvas.coords(helper.opponent.id, coords)
+=======
+
+	canvas.coords(helper.opponent.id, *coords)
+	# exit()
+>>>>>>> b60db5541860ac4306825db0a0b934b807568a12
 	
 network.lowerFrame=lowerFrame
 network.root=root
