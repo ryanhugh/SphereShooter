@@ -33,8 +33,8 @@ def send(*data):
 	dataToSend=[]
 
 
-def addToSend(*data):
-	dataToSend.append(str(data))
+def addToSend(data):
+	dataToSend.append([int(i) for i in data])
 
 
 
@@ -45,6 +45,7 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
     def handle(self):
         clientAddr=self.client_address[0]
         data = ast.literal_eval(self.request[0])
+        # print "data",data
 
         # incoming is list:
         # 1: list of player coords
