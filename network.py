@@ -4,32 +4,48 @@ import socket
 import SocketServer
 import threading
 import ast
+import time
 
+# ===== Constants ===== #
+PORT =  4242
+
+# ===== Initialized empty, Updated by mainfile ===== #
 root=None
 lowerFrame=None
-ipTextBox=None
-ipTextBoxVar=None
 updateOpponent=None
 updateBullets=None
 
 
-#tkinter is not thread safe, and the recieving data is in a thread 
-# so save this and update it in canvas on update
+# ===== Important variables for this file ===== #
+ipTextBox=None
+ipTextBoxVar=None
+
+
+
+#tkinter is not thread safe, - all these act as buffers to communicate between threads
+
+#received player and bullet coords
 newPlayerCoords=[]
 newBulletCoords=[]
+
+#bullet that hit opponent
 recievedBulletsToStopSending=[]
 
+#opponent sent restart message
+doRestart=False
 
-#local server stuff
-PORT =  4242
+#opponent's score
+newOtherScore=""
 
+
+
+
+#network stuff
 destIp=None
 
 dataToSend=[]
 
 
-doRestart=False
-newOtherScore=""
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
@@ -106,7 +122,7 @@ class ThreadedUDPServer(SocketServer.ThreadingMixIn, SocketServer.UDPServer):
 
 
 #waits for wifi to start up and obtain a ip address
-def waitForWifi():
+def getIpAddress():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     while 42:
         sockport='192.168.0.100'
@@ -159,7 +175,7 @@ def networkInit():
 	Label(lowerFrame,text="ip Address:").grid(row=1,column=2)
 
 
-	currentIp=waitForWifi()
+	currentIp=getIpAddress()
 
 
 	ipTextBoxVar=StringVar()

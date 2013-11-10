@@ -15,6 +15,7 @@ BULLETDURATION=1000
 
 PLAYERRADIUS=50
 MAXPLAYERSPEED=10
+PLAYERLIVES=20
 
 # ===== Initialized empty, Updated by mainfile ===== #
 canvas=None
@@ -42,7 +43,7 @@ class Player:
 	
 	def __init__(self):
 		self.deltaX=[0,0]
-		self.lives=20
+		self.lives=PLAYERLIVES
 		photoimage = ImageTk.PhotoImage(file="graphics/player1.png")
 
 		# PIL has a bug in it, don't delete this line
