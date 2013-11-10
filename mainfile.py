@@ -15,33 +15,37 @@ root=Tk()
 
 root.title("Sphere Shooter v.0.1")
 
-frame=Frame()
-frame.grid(row=1,column=0)
 
-canvas=Canvas(frame,width=500,height=500)
-canvas.grid(row=1,column=0)
+#layout management
 
+#top frame for scores
 upperFrame=Frame(width=root.winfo_screenwidth())
 upperFrame.grid(row=0,column=0)
 
+#middle frame for the canvas
+middleframe=Frame()
+middleframe.grid(row=1,column=0)
+
+canvas=Canvas(middleframe,width=500,height=500)
+canvas.grid(row=1,column=0)
+
+#lower frame for text box and restart buttom
 lowerFrame=Frame(width=root.winfo_screenwidth())
 lowerFrame.grid(row=2,column=0)
 
+
+
+
 objects=[]
 
-class OpponentBullet:
-	def __init__(self):
-		self.id=canvas.create_oval(0,0,10,10, fill="blue")
 
-		#this will be changed
-		self.uuid=0
 
 #these functions run with the update()
 #copy the coordinates from network.newPlayerCoords to the Opponent data
 def updateOpponent():
 	canvas.coords(helper.opponent.id, *network.newPlayerCoords)
 
-#updates opponent bullets
+#updates opponent bullets from received data
 def updateBullets():
 
 	# delete extra bullets
@@ -49,47 +53,42 @@ def updateBullets():
 		canvas.delete(helper.opponentBullets[-1].id)
 		del helper.opponentBullets[-1]
 
-	# make new bullets if we dont have enough
+	# make new bullets if we don't have enough
 	while len(helper.opponentBullets)<len(network.newBulletCoords):
 		helper.opponentBullets.append(OpponentBullet())
 
 
-	# change coordinates of all bullets to recieved packet
+	# change coordinates of all bullets to received packet
 	for count,bulletCoords in enumerate(network.newBulletCoords):
 		helper.opponentBullets[count].uuid=bulletCoords[0]
 
-		# remove the hex# from the array
-		# del bulletCoords[0]
 
-		# try:
-		canvas.coords(helper.opponentBullets[count].id,(bulletCoords[1+0],bulletCoords[1+1],10+bulletCoords[1+0],10+bulletCoords[1+1]))
-		# except Exception as e:
-		# 	print 'caught crash!!!'
-		# 	print e
-		# 	print count
-		# 	print helper.opponentBullets
-		# 	print bulletCoords
-		# 	print network.newBulletCoords
-		# 	exit()
+		canvas.coords(helper.opponentBullets[count].id,(bulletCoords[1],bulletCoords[2],10+bulletCoords[1],10+bulletCoords[2]))
 
-def restartfn():
-	print 'you killed the opponent!'
+
+def restartfn(didWin):
+	if didWin:
+		print 'you killed the opponent!'
+	else:
+		print 'restarting!'
+
 	gfxInit()
 	scoreboardInit()
 
 
-#send importiant stuff to network
+#copy globals to other modules
 network.lowerFrame=lowerFrame
 network.root=root
 network.updateOpponent=updateOpponent
 network.updateBullets=updateBullets
-network.restartfn=restartfn
+
 
 
 helper.objects=objects
 helper.canvas=canvas
 helper.root=root
 helper.setLives=scoreboard.setLives
+helper.restartfn=restartfn
 
 
 
@@ -99,13 +98,14 @@ scoreboard.root=root
 
 
 def update():
-	# print 'updating',network.doRestart
-	if network.doRestart:
-		restartfn()
-		network.doRestart=False
 
-		#schedule this function again
-		root.after(10,update)
+	#schedule this function again
+	root.after(10,update)
+	
+	#if threading udp server got restart packet, restart
+	if network.doRestart:
+		restartfn(True)
+		network.doRestart=False
 		return
 
 
@@ -117,21 +117,20 @@ def update():
 	#make array of coords from bullets
 	for count,bullet in enumerate(helper.bullets):
 
-		# use the hex address of the bullet - id returns hex address
+		# use the hex address of the bullet as uuid (id returns hex address)
 		bulletCoords.append([id(helper.bullets[count])]+canvas.coords(bullet.id))
-		# if len(bulletCoords[-1])!=3:
-		# 	print bulletCoords[-1],bullet,bullet.id
+
 
 	#make all coords ints
 	for count,item in enumerate(bulletCoords):
 		bulletCoords[count][1]=int(bulletCoords[count][1])
 		bulletCoords[count][2]=int(bulletCoords[count][2])
 
-	# if len(bulletCoords)!=3:
+
 		
 
 	#send coords of everything
-	#dont change the order of this
+	#order of this is importiant
 	network.addToSend([int(i) for i in canvas.coords(helper.player.id)])
 	network.addToSend(bulletCoords)
 	network.addToSend(helper.bulletsToStopSending)
@@ -139,11 +138,17 @@ def update():
 	network.send()
 
 
+	#loop through bullets opponent told you to delete
 	for localBulletUuid in network.recievedBulletsToStopSending:
 		for localbullet in helper.bullets:
+
+			#if the recieved uuid matches a bullet
 			if localBulletUuid==id(localbullet):
+
+				#delete it from the screen
 				canvas.delete(localbullet.id)
 
+				#and the object lists
 				helper.objects.remove(localbullet)
 				helper.bullets.remove(localbullet)
 
@@ -163,11 +168,8 @@ def update():
 	if scoreboard.otherScoreLabelVar.get()!=network.newOtherScore:
 		scoreboard.otherScoreLabelVar.set(network.newOtherScore)
 
-	#schedule this function again
-	root.after(10,update)
 
-
-# ===== Keybinding ===== #
+# ===== Key binding ===== #
 # w,a,s,d -> move
 # r -> restart
 # ESC,q -> quit
