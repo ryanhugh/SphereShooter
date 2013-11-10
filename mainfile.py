@@ -15,7 +15,7 @@ import time
 
 root=Tk()
 
-root.title("Sphere Shooter v.0.5")
+root.title("SphereShooter v.0.5")
 
 
 #layout management
