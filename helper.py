@@ -3,20 +3,12 @@ from math import *
 from PIL import ImageTk
 
 
-
 # ===== Constants ===== #
 CANVASWIDTH=1200
-CANVASHEIGHT=748
+CANVASHEIGHT=650
 
-
-BULLETRADIUS=5
-BULLETSPEED=10
-BULLETDURATION=2000
-
-PLAYERRADIUS=50
-MAXPLAYERSPEED=10
 PLAYERLIVES=20
-PLAYERCONTROLSENSITIVITY=.2
+CONTROLSENSITIVITY=.2
 
 # ===== Initialized empty, Updated by mainfile ===== #
 canvas=None
@@ -25,7 +17,7 @@ updateLivesLabel=None
 restartfn=None
 
 
-# ===== important variables for this file ===== #
+# ===== Important lists for this file ===== #
 objects=[]
 bullets=[]
 opponentBullets=[]
@@ -38,13 +30,13 @@ bulletsThatHitMe=[]
 #tell opponent to stop sending these bullets
 bulletsToStopSending=[]
 
-
 #keep track of pressed keys for smooth movement
 pressedKeys={"w":False,"a":False,"s":False,"d":False}
 
 # ===== Player: the square, controlled by the user ===== #
 class Player:
-	radius=50 # Radius of sprite is 50
+	RADIUS=50
+	MAXSPEED=10
 	
 	def __init__(self):
 		self.deltaX=[0,0]
@@ -65,9 +57,9 @@ class Player:
 		self.position=canvas.coords(self.id)
 		
 		# ===== Edge detection ===== #
-		if (self.position[0] >= CANVASWIDTH-PLAYERRADIUS) or (self.position[0] <= PLAYERRADIUS):
+		if (self.position[0] >= CANVASWIDTH-player.RADIUS) or (self.position[0] <= player.RADIUS):
 			self.deltaX[0]*=-1
-		if (self.position[1] >= CANVASHEIGHT-PLAYERRADIUS) or (self.position[1] <= PLAYERRADIUS):
+		if (self.position[1] >= CANVASHEIGHT-player.RADIUS) or (self.position[1] <= player.RADIUS):
 			self.deltaX[1]*=-1
 			
 		# ===== Hit detection (by bullet) ===== #
@@ -75,7 +67,7 @@ class Player:
 			edges=canvas.coords(bullet.id)
 			bulletpos=[(edges[0]+edges[2])/2, (edges[1]+edges[3])/2]
 			distance=[bulletpos[0]-self.position[0], bulletpos[1]-self.position[1]]
-			if (BULLETRADIUS+self.radius)>=vecMagnitude(distance): # If the player is hit, -1
+			if (bullet.RADIUS+self.radius)>=vecMagnitude(distance): # If the player is hit, -1
 
 				#if already hit that bullet, don't count it again (network lag)
 				if bullet.uuid in bulletsThatHitMe:
@@ -92,9 +84,9 @@ class Player:
 				# record uuids of bullets that hit
 				bulletsThatHitMe.append(bullet.uuid)
 		
-		# ===== Limit speed to MAXPLAYERSPEED ===== #
-		if vecMagnitude(self.deltaX)>MAXPLAYERSPEED:
-			vecScale(self.deltaX, MAXPLAYERSPEED)
+		# ===== Limit speed to player.MAXSPEED ===== #
+		if vecMagnitude(self.deltaX)>player.MAXSPEED:
+			vecScale(self.deltaX, player.MAXSPEED)
 
 		canvas.move(self.id,self.deltaX[0], self.deltaX[1])
 		
@@ -115,13 +107,16 @@ class Opponent:
 		self.width=photoimage.width()
 		self.height=photoimage.height()
 
-		self.id=canvas.create_image(PLAYERRADIUS*2, PLAYERRADIUS*2, image=photoimage)
+		self.id=canvas.create_image(player.RADIUS*2, player.RADIUS*2, image=photoimage)
 	
 	def update(self):
 		pass
 	
 # ===== Bullets are shot by the square ===== #
 class Bullet:
+	RADIUS=5
+	SPEED=10
+	TTL=2000
 
 	def __init__(self, pointer): # pointer refers to position of mouse pointer
 		objects.append(self)
@@ -129,10 +124,10 @@ class Bullet:
 		
 		# Direction vector along which bullet will travel
 		direction=[pointer[0]-player.position[0], pointer[1]-player.position[1]] 
-		self.deltaX=vecScale(direction,BULLETRADIUS)
+		self.deltaX=vecScale(direction,self.SPEED)
 
-		self.id=canvas.create_oval(player.position[0]-BULLETRADIUS,player.position[1]+BULLETRADIUS,player.position[0]+BULLETRADIUS,player.position[1]-BULLETRADIUS, fill="red")
-		root.after(BULLETDURATION, self.vanish)
+		self.id=canvas.create_oval(player.position[0]-self.RADIUS,player.position[1]+self.RADIUS,player.position[0]+self.RADIUS,player.position[1]-self.RADIUS, fill="red")
+		root.after(self.TTL, self.vanish)
 		
 	def vanish(self):
 		canvas.delete(self.id)
