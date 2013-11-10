@@ -62,8 +62,28 @@ def update():
 
 
 	#send coords of everything
-	network.addToSend(canvas.coords(helper.player.id))
-	network.addToSend([canvas.coords(i.id) for i in helper.bullets])
+	network.addToSend([int(i) for i in canvas.coords(helper.player.id)])
+
+	bulletCoords=[]
+
+	for count,bullet in enumerate(helper.bullets):
+		try:
+			if 'id' not in bullet.__dict__:
+				print bullet, bullet.__dict__
+				exit()
+		except:
+			print helper.bullets
+			print helper.bullets
+			print helper.bullets
+			print helper.bullets
+		bulletCoords.append(canvas.coords(bullet.id))
+
+
+	for count,item in enumerate(bulletCoords):
+		bulletCoords[count]=[int(i) for i in item]
+
+
+	network.addToSend(bulletCoords)
 	network.send()
 
 

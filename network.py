@@ -41,7 +41,7 @@ def send(*data):
 
 
 def addToSend(data):
-	dataToSend.append([int(i) for i in data])
+	dataToSend.append(data)
 
 
 class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):

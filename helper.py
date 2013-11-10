@@ -59,6 +59,8 @@ class Bullet:
 			objects.remove(self)
 		if self in bullets:
 			bullets.remove(self)
+
+		del self
 	
 	def update(self):
 		if self in objects:
