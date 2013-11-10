@@ -15,7 +15,6 @@ root=Tk()
 
 
 
-
 frame=Frame()
 frame.grid(row=1,column=0)
 
@@ -100,6 +99,12 @@ scoreboard.root=root
 
 
 def update():
+	if network.doRestart:
+		restartfn()
+		network.doRestart=False
+		return
+
+
 	for obj in objects:
 		obj.update()
 
