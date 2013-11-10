@@ -9,6 +9,7 @@ from scoreboard import *
 
 from Tkinter import *
 from random import *
+import tkMessageBox
 
 
 root=Tk()
@@ -101,6 +102,16 @@ scoreboard.root=root
 
 def update():
 
+	if helper.player.lives<0:
+		print "Out of lives!"
+		if tkMessageBox.askyesno("You lost!", "Play again?"):			
+			restartfn(False,True)
+		else:
+			exit()
+
+	if scoreboard.otherScoreLabelVar.get()!=network.newOtherScore:
+		scoreboard.otherScoreLabelVar.set(network.newOtherScore)
+
 	#schedule this function again
 	root.after(10,update)
 	
@@ -171,13 +182,6 @@ def update():
 	if network.destIp:
 		updateBullets()
 		updateOpponent()
-	
-	if helper.player.lives<0:
-		print "Out of lives!"
-		restartfn(False,True)
-
-	if scoreboard.otherScoreLabelVar.get()!=network.newOtherScore:
-		scoreboard.otherScoreLabelVar.set(network.newOtherScore)
 
 
 # ===== Key binding ===== #
