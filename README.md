@@ -18,6 +18,7 @@ Controls:
 | Key   | Action |
 |:-----:|--------|
 | WASD  | Move   |
+| X     | Kill speed |
 | R     | Restart|
 | B     | Print debug data to console |
 | ESC, Q| Quit   |
