@@ -26,7 +26,7 @@ upperFrame.grid(row=0,column=0)
 middleframe=Frame()
 middleframe.grid(row=1,column=0)
 
-canvas=Canvas(middleframe,width=500,height=500)
+canvas=Canvas(middleframe,width=helper.CANVASWIDTH,height=helper.CANVASHEIGHT)
 canvas.grid(row=1,column=0)
 
 #lower frame for text box and restart buttom
