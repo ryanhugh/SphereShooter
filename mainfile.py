@@ -75,6 +75,7 @@ def updateBullets():
 
 def restartfn():
 	print 'you killed the opponent!'
+	opponentBullets
 	gfxInit()
 	scoreboardInit()
 
