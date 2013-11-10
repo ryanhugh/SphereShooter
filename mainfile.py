@@ -24,6 +24,7 @@ objects=[]
 
 helper.objects=objects
 helper.canvas=canvas
+helper.root=root
 
 
 def updateOpponent(coords):
