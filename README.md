@@ -22,9 +22,3 @@ Controls:
 | B     | Print debug data to console |
 | ESC, Q| Quit   |
 | Left-click | Fire |
-
-
-TODO
-=======
-- Better graphics?
-- User interaction improvements

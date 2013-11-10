@@ -14,7 +14,7 @@ import time
 
 # ===== Create the window ===== #
 root=Tk()
-root.title("SphereShooter v.0.6")
+root.title("SphereShooter v.0.7")
 
 #top frame for scores
 upperFrame=Frame(width=root.winfo_screenwidth())
@@ -85,7 +85,7 @@ scoreboard.root=root
 
 def update():
 
-	if helper.player.lives<0:
+	if helper.player.lives<=0:
 		print "Out of lives!"
 		sendRestartMsg()
 		if tkMessageBox.askyesno("You lost!", "Play again?"):			
