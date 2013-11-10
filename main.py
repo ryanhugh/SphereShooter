@@ -24,7 +24,7 @@ upperFrame.grid(row=0,column=0)
 middleframe=Frame()
 middleframe.grid(row=1,column=0)
 
-canvas=Canvas(middleframe,width=helper.CANVASWIDTH,height=helper.CANVASHEIGHT)
+canvas=Canvas(middleframe,width=helper.CANVASWIDTH,height=helper.CANVASHEIGHT,background="GRAY")
 canvas.grid(row=1,column=0)
 
 #lower frame for text box and restart buttom
@@ -87,7 +87,7 @@ def update():
 
 	if helper.player.lives<=0:
 		print "Out of lives!"
-		sendRestartMsg()
+		sendLoseMsg()
 		if tkMessageBox.askyesno("You lost!", "Play again?"):			
 			restartfn(False)
 			network.doRestart=False
@@ -104,11 +104,18 @@ def update():
 
 	#if threading udp server got restart packet, restart
 	if network.doRestart:
+		restartfn(False)
+		network.doRestart=False
+
+		# Schedule this function again
+		root.after(10,update)
+		return
+
+	if network.iWon:
 		print 'you killed the opponent!'
-		sendRestartMsg()
 		if tkMessageBox.askyesno("You won!", "Play again?"):			
 			restartfn(False)
-			network.doRestart=False
+			network.iWon=False
 
 			# Schedule this function again
 			root.after(10,update)
