@@ -6,6 +6,7 @@ from PIL import ImageTk
 objects=[]
 bullets=[]
 opponentBullets=[]
+bulletsToStopSending=[]
 canvas=None
 root=None
 playerShot=None
@@ -43,7 +44,8 @@ class Player:
 			if (5+self.radius)<=vecMagnitude(distance): # If the player is hit, -1
 				self.lives-=1
 				canvas.delete(bullet)
-				opponentBullets.remove(bullet)
+				bulletsToStopSending.append(bullet.uuid)
+				# opponentBullets.remove(bullet)
 				# send bullet back to opponent
 		
 		# ===== Limit speed to 10 ===== #

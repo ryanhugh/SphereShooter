@@ -16,7 +16,7 @@ updateBullets=None
 # so save this and update it in canvas on update
 newPlayerCoords=[]
 newBulletCoords=[]
-
+recievedBulletsToStopSending=[]
 
 
 #local server stuff
@@ -24,9 +24,10 @@ PORT =  4242
 
 destIp=None
 
+dataToSend=[]
+
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-dataToSend=[]
 
 def send(*data):
 	global dataToSend
@@ -54,8 +55,6 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
         clientAddr=self.client_address[0]
         data = ast.literal_eval(self.request[0])
         
-       
-
         # incoming is list:
         # 1: list of player coords
         # 2: list of bullets
@@ -63,19 +62,14 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
 
 
         newPlayerCoords=data[0]
-        
         newBulletCoords=data[1]
+        recievedBulletsToStopSending=data[2]
 
-
-
-
-        
         
                     
 
 class ThreadedUDPServer(SocketServer.ThreadingMixIn, SocketServer.UDPServer):
     pass
-
 
 
 #waits for wifi to start up and obtain a ip address
@@ -101,8 +95,6 @@ def waitForWifi():
 
         #wait before trying again
         time.sleep(1)
-
-
 
 
 
@@ -144,8 +136,6 @@ def networkInit():
 
 	#unfocus text box when enter is clicked
 	root.bind("<Return>", enterButtonClicked)
-
-
 
 	#make a UDP server
 	server = ThreadedUDPServer((currentIp, PORT), ThreadedUDPRequestHandler)

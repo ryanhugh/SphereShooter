@@ -30,6 +30,12 @@ lowerFrame.grid(row=2,column=0)
 
 objects=[]
 
+class OpponentBullet:
+	def __init__(self):
+		self.id=canvas.create_oval(0,0,10,10, fill="blue")
+
+		#this will be changed
+		self.uuid=0
 
 #these functions run with the update()
 #copy the coordinates from network.newPlayerCoords to the Opponent data
@@ -38,18 +44,30 @@ def updateOpponent():
 
 def updateBullets():
 
+
+	# print 'here',len(network.newBulletCoords)
+	# delete extra bullets
 	while len(helper.opponentBullets)>len(network.newBulletCoords):
+
 		canvas.delete(helper.opponentBullets[-1])
 		del helper.opponentBullets[-1]
 
+	# make new bullets if we dont have enough
 	while len(helper.opponentBullets)<len(network.newBulletCoords):
-		helper.opponentBullets.append(canvas.create_oval(0,0,10,10, fill="blue"))
+		helper.opponentBullets.append(OpponentBullet())
 
+
+	# change coordinates of all bullets to recieved packet
 	for count,bulletCoords in enumerate(network.newBulletCoords):
+		helper.opponentBullets[count].uuid=bulletCoords[0]
 
-		canvas.coords(helper.opponentBullets[count],(bulletCoords[0],bulletCoords[1],10+bulletCoords[0],10+bulletCoords[1]))
+		# remove the hex# from the array
+		del bulletCoords[0]
 
-	
+
+		canvas.coords(helper.opponentBullets[count].id,(bulletCoords[0],bulletCoords[1],10+bulletCoords[0],10+bulletCoords[1]))
+
+
 
 #send importiant stuff to network
 network.lowerFrame=lowerFrame
@@ -72,8 +90,6 @@ def update():
 		obj.update()
 
 
-	#send coords of everything
-	network.addToSend([int(i) for i in canvas.coords(helper.player.id)])
 
 	bulletCoords=[]
 
@@ -81,17 +97,36 @@ def update():
 
 	#make array of coords from bullets
 	for count,bullet in enumerate(helper.bullets):
-		bulletCoords.append(canvas.coords(bullet.id))
+
+		# use the hex address of the bullet - id returns hex address
+		bulletCoords.append([id(helper.bullets[count])]+canvas.coords(bullet.id))
 
 	#make all coords ints
 	for count,item in enumerate(bulletCoords):
-		bulletCoords[count]=[int(i) for i in item][0:2]
+		bulletCoords[count][1]=int(bulletCoords[count][1])
+		bulletCoords[count][2]=int(bulletCoords[count][2])
 
-	# print bulletCoords
 
+
+	#send coords of everything
+	#dont change the order of this
+	network.addToSend([int(i) for i in canvas.coords(helper.player.id)])
 	network.addToSend(bulletCoords)
+	network.addToSend(helper.bulletsToStopSending)
 	network.send()
 
+
+	for localBulletUuid in helper.bulletsToStopSending:
+		for localbullet in helper.bullets:
+			if localBulletUuid==id(localbullet):
+				canvas.delete(localbullet.id)
+
+				helper.objects.remove(localbullet)
+				helper.bullets.remove(localbullet)
+				print 'deleting local bullet',id(localbullet),'because it hit opponate'
+
+
+	helper.bulletsToStopSending=[]
 
 	#if there is no opponent, don't update Opponent and Opponent bullets
 	if network.destIp:

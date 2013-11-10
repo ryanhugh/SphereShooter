@@ -1,18 +1,20 @@
 from Tkinter import *
 from random import *
 
+import helper
+from helper import *
+
 root=None
 upperFrame=None
 
 scoreLabelVar=None
 scoreLabel=None
-lives=5
+
 
 def setLives(thelives):
-	global lives
-	lives=thelives
-	scoreLabelVar.set(int(lives))
-	
+	helper.player.lives=thelives
+	scoreLabelVar.set(int(helper.player.lives))
+
 
 def scoreboardInit():
 	global scoreLabelVar
@@ -21,7 +23,7 @@ def scoreboardInit():
 	Label(upperFrame,text="Lives:").grid(row=0,column=1)
 
 	scoreLabelVar=StringVar()
-	scoreLabelVar.set(int(lives))
+	scoreLabelVar.set(int(helper.player.lives))
 
 	scoreLabel=Label(upperFrame,textvariable=scoreLabelVar).grid(row=0,column=2)
 
