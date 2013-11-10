@@ -29,6 +29,7 @@ dataToSend=[]
 
 
 doRestart=False
+newOtherScore=""
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
@@ -65,6 +66,7 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
     	global recievedBulletsToStopSending
     	global destIp
     	global doRestart
+    	global newOtherScore
 
     	# get data
         clientAddr=self.client_address[0]
@@ -85,16 +87,16 @@ class ThreadedUDPRequestHandler(SocketServer.BaseRequestHandler):
         # 1: list of player coords
         # 2: list of bullets
         	# each bullets coords
-
+        # 3 uuids of each bullet that should be deleted
+        # other person's score
 
         newPlayerCoords=data[0]
         newBulletCoords=data[1]
-        # for bulletcoord in newBulletCoords:
-        # 	if  len(bulletcoord)==2:
-        # 		print "uh oh!!"
-        # 		newBulletCoords=[]
-        # 		break
+
+
         recievedBulletsToStopSending=data[2]
+        
+        newOtherScore=str(data[3])
 
         
                     

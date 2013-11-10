@@ -13,7 +13,7 @@ from random import *
 
 root=Tk()
 
-root.title("SphereShoot v.0.1")
+root.title("Sphere Shooter v.0.1")
 
 frame=Frame()
 frame.grid(row=1,column=0)
@@ -135,6 +135,7 @@ def update():
 	network.addToSend([int(i) for i in canvas.coords(helper.player.id)])
 	network.addToSend(bulletCoords)
 	network.addToSend(helper.bulletsToStopSending)
+	network.addToSend(helper.player.lives)
 	network.send()
 
 
@@ -158,6 +159,9 @@ def update():
 		sendRestartMsg()
 		gfxInit()
 		scoreboardInit()
+
+	if scoreboard.otherScoreLabelVar.get()!=network.newOtherScore:
+		scoreboard.otherScoreLabelVar.set(network.newOtherScore)
 
 	#schedule this function again
 	root.after(10,update)
