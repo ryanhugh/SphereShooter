@@ -1,3 +1,4 @@
+import os
 import time
 from Tkinter import *
 from math import *
@@ -62,10 +63,25 @@ class Player:
 		self.position=canvas.coords(self.id)
 		
 		# ===== Edge detection ===== #
-		if (self.position[0] >= CANVASWIDTH-player.RADIUS) or (self.position[0] <= player.RADIUS):
-			self.deltaX[0]*=-1
-		if (self.position[1] >= CANVASHEIGHT-player.RADIUS) or (self.position[1] <= player.RADIUS):
-			self.deltaX[1]*=-1
+		#only switch direction if moving into wall and touching the wall
+		if self.position[0] >= CANVASWIDTH-player.RADIUS:
+			if player.deltaX[0]>0:
+				self.deltaX[0]*=-1
+
+		if self.position[0] <= player.RADIUS:
+			if player.deltaX[0]<0:
+				self.deltaX[0]*=-1
+
+
+		if self.position[1] >= CANVASHEIGHT-player.RADIUS:
+			if player.deltaX[1]>0:
+				self.deltaX[1]*=-1
+
+
+		if self.position[1] <= player.RADIUS:
+			if player.deltaX[1]<0:
+				self.deltaX[1]*=-1
+
 			
 		# ===== Hit detection (by bullet) ===== #
 		for bullet in opponentBullets:
@@ -175,11 +191,10 @@ def gfxInit():
 		del bullets[0]
 	
 	# ===== Draw background ===== #	
-	try:
+	if os.path.isfile("graphics/bg.jpg"):
 		background = ImageTk.PhotoImage(file="graphics/bg.jpg")
 		bgID = canvas.create_image(CANVASWIDTH/2, CANVASHEIGHT/2, image=background)
-	except:
-		pass
+
 	
 	
 	player=Player()
