@@ -50,13 +50,10 @@ class Player:
 		self.lives=PLAYERLIVES
 		
 		# Create the player
-		if os.path.isfile("graphics/bg.jpg"):
-			photoimage = ImageTk.PhotoImage(file="graphics/red.png")
-			self.photoimage=photoimage # PIL has a bug in it, don't delete this line
-			self.id=canvas.create_image(CANVASWIDTH/2, CANVASHEIGHT/2, image=photoimage)
-			self.position=canvas.coords(self.id)
-		else:
-			print "ERROR: Graphics not found"
+		photoimage = ImageTk.PhotoImage(file="graphics/red.png")
+		self.photoimage=photoimage # PIL has a bug in it, don't delete this line
+		self.id=canvas.create_image(CANVASWIDTH/2, CANVASHEIGHT/2, image=photoimage)
+		self.position=canvas.coords(self.id)
 
 		# keep track of all objects for main update loop
 		objects.append(self)
@@ -119,17 +116,12 @@ class Opponent:
 	def __init__(self):
 		self.deltaX=[0,0]
 		objects.append(self)
-
-		# Create the player
-		if os.path.isfile("graphics/bg.jpg"):
-			photoimage = ImageTk.PhotoImage(file="graphics/blue.png")
-			self.photoimage=photoimage # PIL has a bug in it, dont delete this line
-			self.width=photoimage.width()
-			self.height=photoimage.height()
-			self.id=canvas.create_image(player.RADIUS*2, player.RADIUS*2, image=photoimage)
-		else:
-			print "ERROR: Graphics not found"
-			exit() 
+		
+		photoimage = ImageTk.PhotoImage(file="graphics/blue.png")
+		self.photoimage=photoimage # PIL has a bug in it, dont delete this line
+		self.width=photoimage.width()
+		self.height=photoimage.height()
+		self.id=canvas.create_image(player.RADIUS*2, player.RADIUS*2, image=photoimage)
 	
 	def update(self):
 		pass
@@ -195,11 +187,12 @@ def gfxInit():
 	if os.path.isfile("graphics/bg.jpg"):
 		background = ImageTk.PhotoImage(file="graphics/bg.jpg")
 		bgID = canvas.create_image(CANVASWIDTH/2, CANVASHEIGHT/2, image=background)
-
-	
-	
-	player=Player()
-	opponent=Opponent()
+	if os.path.isfile("graphics/red.png") and os.path.isfile("graphics/blue.png"):
+		player=Player()
+		opponent=Opponent()
+	else:
+		print "ERROR: Essential graphics missing!"
+		exit()
 
 	lastFireTime=time.time()
 
