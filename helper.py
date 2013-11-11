@@ -128,7 +128,8 @@ class Opponent:
 			self.height=photoimage.height()
 			self.id=canvas.create_image(player.RADIUS*2, player.RADIUS*2, image=photoimage)
 		else:
-			print "ERROR: Graphics not found" 
+			print "ERROR: Graphics not found"
+			exit() 
 	
 	def update(self):
 		pass
