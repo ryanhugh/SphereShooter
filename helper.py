@@ -3,6 +3,7 @@ import time
 from Tkinter import *
 from math import *
 from PIL import ImageTk
+from sys import exit
 
 
 # ===== Constants ===== #
@@ -47,14 +48,15 @@ class Player:
 	def __init__(self):
 		self.deltaX=[0,0]
 		self.lives=PLAYERLIVES
-		photoimage = ImageTk.PhotoImage(file="graphics/red.png")
-
-		# PIL has a bug in it, don't delete this line
-		self.photoimage=photoimage
-
-		self.id=canvas.create_image(CANVASWIDTH/2, CANVASHEIGHT/2, image=photoimage)
-
-		self.position=canvas.coords(self.id)
+		
+		# Create the player
+		if os.path.isfile("graphics/bg.jpg"):
+			photoimage = ImageTk.PhotoImage(file="graphics/red.png")
+			self.photoimage=photoimage # PIL has a bug in it, don't delete this line
+			self.id=canvas.create_image(CANVASWIDTH/2, CANVASHEIGHT/2, image=photoimage)
+			self.position=canvas.coords(self.id)
+		else:
+			print "ERROR: Graphics not found"
 
 		# keep track of all objects for main update loop
 		objects.append(self)
@@ -82,7 +84,6 @@ class Player:
 			if player.deltaX[1]<0:
 				self.deltaX[1]*=-1
 
-			
 		# ===== Hit detection (by bullet) ===== #
 		for bullet in opponentBullets:
 			edges=canvas.coords(bullet.id)
@@ -117,18 +118,17 @@ class Opponent:
 	
 	def __init__(self):
 		self.deltaX=[0,0]
-	
 		objects.append(self)
 
-		photoimage = ImageTk.PhotoImage(file="graphics/blue.png")
-
-		#pil has a bug in it, dont delete this line
-		self.photoimage=photoimage
-
-		self.width=photoimage.width()
-		self.height=photoimage.height()
-
-		self.id=canvas.create_image(player.RADIUS*2, player.RADIUS*2, image=photoimage)
+		# Create the player
+		if os.path.isfile("graphics/bg.jpg"):
+			photoimage = ImageTk.PhotoImage(file="graphics/blue.png")
+			self.photoimage=photoimage # PIL has a bug in it, dont delete this line
+			self.width=photoimage.width()
+			self.height=photoimage.height()
+			self.id=canvas.create_image(player.RADIUS*2, player.RADIUS*2, image=photoimage)
+		else:
+			print "ERROR: Graphics not found" 
 	
 	def update(self):
 		pass

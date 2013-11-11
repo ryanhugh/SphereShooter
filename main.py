@@ -9,6 +9,7 @@ from scoreboard import *
 
 from Tkinter import *
 from random import *
+from sys import exit
 import tkMessageBox
 import time
 
